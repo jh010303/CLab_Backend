@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clab.personaAnalysis.dao.PersonaAnalysisMapper">
+
+    <resultMap id="personaAnalysisMap" type="com.clab.personaAnalysis.dto.PersonaAnalysisDto">
+        <id property="id" column="id"/>
+        <result property="chattingId" column="chatting_id"/>
+        <result property="participantId" column="participant_id"/>
+        <result property="personaId" column="persona_id"/>
+        <result property="analysisSummary" column="analysis_summary"/>
+        <result property="speechStyle" column="speech_style"/>
+        <result property="tetoScore" column="teto_score"/>
+    </resultMap>
+
+    <!-- 전체 조회 -->
+    <select id="findAll" resultMap="personaAnalysisMap">
+        SELECT
+            id,
+            chatting_id,
+            participant_id,
+            persona_id,
+            analysis_summary,
+            speech_style,
+            teto_score
+        FROM persona_analysis
+    </select>
+
+    <!-- 단건 조회 -->
+    <select id="findById" parameterType="int" resultMap="personaAnalysisMap">
+        SELECT
+            id,
+            chatting_id,
+            participant_id,
+            persona_id,
+            analysis_summary,
+            speech_style,
+            teto_score
+        FROM persona_analysis
+        WHERE id = #{id}
+    </select>
+
+    <!-- 채팅 id로 조회 -->
+    <select id="findByChattingId" parameterType="int" resultMap="personaAnalysisMap">
+        SELECT
+            id,
+            chatting_id,
+            participant_id,
+            persona_id,
+            analysis_summary,
+            speech_style,
+            teto_score
+        FROM persona_analysis
+        WHERE chatting_id = #{chattingId}
+    </select>
+
+    <!-- 참여자 id로 조회 -->
+    <select id="findByParticipantId" parameterType="int" resultMap="personaAnalysisMap">
+        SELECT
+            id,
+            chatting_id,
+            participant_id,
+            persona_id,
+            analysis_summary,
+            speech_style,
+            teto_score
+        FROM persona_analysis
+        WHERE participant_id = #{participantId}
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insert"
+            parameterType="com.clab.personaAnalysis.dto.PersonaAnalysisDto"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO persona_analysis
+        (
+            chatting_id,
+            participant_id,
+            persona_id,
+            analysis_summary,
+            speech_style,
+            teto_score
+        )
+        VALUES
+        (
+            #{chattingId},
+            #{participantId},
+            #{personaId},
+            #{analysisSummary},
+            #{speechStyle},
+            #{tetoScore}
+        )
+    </insert>
+
+    <!-- 수정 -->
+    <update id="update">
+        UPDATE persona_analysis
+        SET
+            persona_id = #{dto.personaId},
+            analysis_summary = #{dto.analysisSummary},
+            speech_style = #{dto.speechStyle},
+            teto_score = #{dto.tetoScore}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM persona_analysis
+        WHERE id = #{id}
+    </delete>
+
+</mapper>
