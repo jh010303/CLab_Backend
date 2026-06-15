@@ -1,4 +1,4 @@
-package com.clab.chat_file.dto;
+package com.clab.chatFile.dto;
 
 import java.time.LocalDateTime;
 
