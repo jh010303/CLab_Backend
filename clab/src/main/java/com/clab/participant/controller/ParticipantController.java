@@ -1,7 +1,6 @@
 package com.clab.participant.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,13 +60,8 @@ public class ParticipantController {
 	@PostMapping
 	@Operation(summary = "등록")
 	public ResponseEntity<ApiResponse> insert(@RequestBody ParticipantDto dto) {
-		System.out.println("dto : " + dto);
-	    System.out.println("chatId = " + dto.getChatId());
-	    System.out.println("personaId = " + dto.getPersonaId());
-
-	    
 		int id = participantService.insert(dto);
-		ApiResponse response = new ApiResponse(SuccessCode.INSERT_SUCCESS, Map.of("id", id));
+		ApiResponse response = new ApiResponse(SuccessCode.INSERT_SUCCESS, id);
 		return ResponseEntity
 				.status(response.getStatus())
 				.body(response);
