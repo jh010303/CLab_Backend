@@ -63,7 +63,7 @@ public class ChatServiceImpl implements ChatService {
 		if(chatResult == 0) {
 			throw new CustomException(ErrorCode.CHAT_BAD_REQUEST);
 		} else {
-			int id = dto.getId();
+			int id = insertDto.getId();
 			return id;
 		}
 	}

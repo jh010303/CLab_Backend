@@ -111,11 +111,16 @@ public class ChatController {
 	      participantDto.setChatId(id);
 	      participantDto.setName(name);
 	      participantDto.setCount(myMessages.size());
+	      participantDto.setScore(100);
+	      participantDto.setAverageReplyTime(90);
 	      participantDto.setChatLength(
 	          (long) myMessages.stream()
 	              .mapToInt(m -> m.getContent().length())
 	              .sum()
 	      );
+	      participantDto.setComment("---");
+	      participantDto.setAlias(name);
+	      participantDto.setPersonaId(1);
 	      participantService.insert(participantDto);
 	      
 	      int participantId = participantDto.getId();
