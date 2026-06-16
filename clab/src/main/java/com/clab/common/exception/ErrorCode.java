@@ -87,8 +87,15 @@ public enum ErrorCode implements BaseCode {
 	PERSONA_BAD_REQUEST(400, "PERS-002", "잘못된 접근입니다. 인물상 DB에 적용되지 않았습니다."),
 	PERSONA_INSERT_FAILED(400, "PERS-003", "인물상 생성에 실패하였습니다."),
 	PERSONA_UPDATE_FAILED(400, "PERS-004", "인물상 수정에 실패하였습니다."),
-	PERSONA_DELETE_FAILED(400, "PERS-005", "인물상 삭제에 실패하였습니다.")
+	PERSONA_DELETE_FAILED(400, "PERS-005", "인물상 삭제에 실패하였습니다."),
 	// Persona Error --- END
+
+	// PersonaAnalysis Error --- BEGIN
+	PERSONA_ANALYSIS_NOT_FOUND(404, "PA-001", "인물 분석을 조회할 수 없습니다."),
+	PERSONA_ANALYSIS_INSERT_FAILED(400, "PA-002", "인물 분석 생성에 실패하였습니다."),
+	PERSONA_ANALYSIS_UPDATE_FAILED(400, "PA-003", "인물 분석 수정에 실패하였습니다."),
+	PERSONA_ANALYSIS_DELETE_FAILED(400, "PA-004", "인물 분석 삭제에 실패하였습니다.")
+	// PersonaAnalysis Error --- END
 	
 	
 	; // End
