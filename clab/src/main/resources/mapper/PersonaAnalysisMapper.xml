@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <resultMap id="personaAnalysisMap" type="com.clab.personaAnalysis.dto.PersonaAnalysisDto">
         <id property="id" column="id"/>
-        <result property="chattingId" column="chatting_id"/>
+        <result property="chatId" column="chat_id"/>
         <result property="participantId" column="participant_id"/>
         <result property="personaId" column="persona_id"/>
         <result property="analysisSummary" column="analysis_summary"/>
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="findAll" resultMap="personaAnalysisMap">
         SELECT
             id,
-            chatting_id,
+            chat_id,
             participant_id,
             persona_id,
             analysis_summary,
@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="findById" parameterType="int" resultMap="personaAnalysisMap">
         SELECT
             id,
-            chatting_id,
+            chat_id,
             participant_id,
             persona_id,
             analysis_summary,
@@ -46,21 +46,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="findByChattingId" parameterType="int" resultMap="personaAnalysisMap">
         SELECT
             id,
-            chatting_id,
+            chat_id,
             participant_id,
             persona_id,
             analysis_summary,
             speech_style,
             teto_score
         FROM persona_analysis
-        WHERE chatting_id = #{chattingId}
+        WHERE chat_id = #{chatId}
     </select>
 
     <!-- 참여자 id로 조회 -->
     <select id="findByParticipantId" parameterType="int" resultMap="personaAnalysisMap">
         SELECT
             id,
-            chatting_id,
+            chat_id,
             participant_id,
             persona_id,
             analysis_summary,
@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             keyProperty="id">
         INSERT INTO persona_analysis
         (
-            chatting_id,
+            chat_id,
             participant_id,
             persona_id,
             analysis_summary,
@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         )
         VALUES
         (
-            #{chattingId},
+            #{chatId},
             #{participantId},
             #{personaId},
             #{analysisSummary},
