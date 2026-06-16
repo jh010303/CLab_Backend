@@ -1,5 +1,7 @@
 package com.clab.content_category.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +33,9 @@ public class ContentCategoryController {
 				.status(response.getStatus())
 				.body(response);
 	}
-	@GetMapping("/{contentId}")
+	@GetMapping("/content/{contentId}")
 	public ResponseEntity<ApiResponse> findByContentId(@PathVariable("contentId") int contentId){
-		ContentCategoryDto result = contentCategoryService.findByContentId(contentId);
+		List<ContentCategoryDto> result = contentCategoryService.findByContentId(contentId);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity
 				.status(response.getStatus())
@@ -47,7 +49,7 @@ public class ContentCategoryController {
 				.status(response.getStatus())
 				.body(response);
 	}
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponse> delete(@PathVariable("id") int id){
 		contentCategoryService.delete(id);
 		ApiResponse response = new ApiResponse(SuccessCode.DELETE_SUCCESS, null);

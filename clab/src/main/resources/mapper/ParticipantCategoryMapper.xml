@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="id" column="id" />
 		<result property="participantId" column="participant_id" />
 		<result property="categoryId" column="category_id" />
+		<result property="count" column="count" />
 	</resultMap>
 
 	<select id="findByParticipantId" parameterType="int"
@@ -17,7 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT
 		id,
 		participant_id,
-		category_id
+		category_id,
+		count
 		FROM participant_category
 		WHERE participant_id = #{participantId}
 	</select>
@@ -30,12 +32,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO participant_category
 		(
 			participant_id,
-			category_id
+			category_id,
+			count
 		)
 		VALUES
 		(
 			#{participantId},
-			#{categoryId}
+			#{categoryId},
+			#{count}
 		)
 
 	</insert>
