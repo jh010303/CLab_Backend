@@ -54,7 +54,11 @@ public enum ErrorCode implements BaseCode {
 	// Content Error --- END
 	
 	// Content-Category Error --- BEGIN
-	
+	CONTENT_CATEGORY_NOT_FOUND(404, "COCA-001", "내용-카테고리를 조회할 수 없습니다."),
+	CONTENT_CATEGORY_BAD_REQUEST(400, "COCA-002", "잘못된 접근입니다. 내용-카테고리 DB에 적용이 되지 않았습니다."),
+	CONTENT_CATEGORY_INSERT_FAILED(400, "COCA-003", "내용-카테고리 생성에 실패하였습니다."),
+	CONTENT_CATEGORY_UPDATE_FAILED(400, "COCA-004", "내용-카테고리 수정에 실패하였습니다."),
+	CONTENT_CATEGORY_DELETE_FAILED(400, "COCA-005", "내용-카테고리 삭제에 실패하였습니다."),
 	// Content-Category Error --- END
 	
 	// Member Error --- BEGIN
@@ -79,7 +83,11 @@ public enum ErrorCode implements BaseCode {
 	// Participant Error --- END
 	
 	// Participant-Category Error --- BEGIN
-	
+	PARTICIPANT_CATEGORY_NOT_FOUND(404, "PACA-001", "참여자-카테고리를 조회할 수 없습니다."),
+	PARTICIPANT_CATEGORY_BAD_REQUEST(400, "PACA-002", "잘못된 접근입니다. 참여자-카테고리 DB에 적용이 되지 않았습니다."),
+	PARTICIPANT_CATEGORY_INSERT_FAILED(400, "PACA-003", "참여자-카테고리 생성에 실패하였습니다."),
+	PARTICIPANT_CATEGORY_UPDATE_FAILED(400, "PACA-004", "참여자-카테고리 수정에 실패하였습니다."),
+	PARTICIPANT_CATEGORY_DELETE_FAILED(400, "PACA-005", "참여자-카테고리 삭제에 실패하였습니다."),
 	// Participant-Category Error --- END
 	
 	// Persona Error --- BEGIN
