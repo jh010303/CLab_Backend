@@ -1,5 +1,7 @@
 package com.clab.content_category.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.clab.content_category.dto.ContentCategoryDto;
@@ -9,7 +11,7 @@ public interface ContentCategoryMapper {
 
 	ContentCategoryDto findById(int id);
 
-	ContentCategoryDto findByContentId(int contentId);
+	List<ContentCategoryDto> findByContentId(int contentId);
 
 	int insert(ContentCategoryDto dto);
 

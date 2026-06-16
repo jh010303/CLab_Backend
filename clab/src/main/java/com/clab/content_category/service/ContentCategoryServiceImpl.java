@@ -1,5 +1,7 @@
 package com.clab.content_category.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.clab.common.exception.CustomException;
@@ -25,12 +27,12 @@ public class ContentCategoryServiceImpl implements ContentCategoryService{
 	}
 
 	@Override
-	public ContentCategoryDto findByContentId(int contentId) {
-		ContentCategoryDto dto = mapper.findByContentId(contentId);
-		if(dto == null) {
+	public List<ContentCategoryDto> findByContentId(int contentId) {
+		List<ContentCategoryDto> dtos = mapper.findByContentId(contentId);
+		if(dtos == null) {
 			throw new CustomException(ErrorCode.CONTENT_CATEGORY_NOT_FOUND);
 		}
-		return dto;
+		return dtos;
 	}
 
 	@Override
