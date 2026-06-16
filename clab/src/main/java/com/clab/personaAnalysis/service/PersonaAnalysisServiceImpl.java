@@ -32,8 +32,8 @@ public class PersonaAnalysisServiceImpl implements PersonaAnalysisService {
 	}
 
 	@Override
-	public List<PersonaAnalysisDto> findByChattingId(int chattingId) {
-		return mapper.findByChattingId(chattingId);
+	public List<PersonaAnalysisDto> findByChatId(int chatId) {
+		return mapper.findByChatId(chatId);
 	}
 
 	@Override

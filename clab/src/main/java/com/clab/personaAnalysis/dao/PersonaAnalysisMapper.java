@@ -13,7 +13,7 @@ public interface PersonaAnalysisMapper {
 
 	PersonaAnalysisDto findById(int id);
 
-	List<PersonaAnalysisDto> findByChattingId(int chattingId);
+	List<PersonaAnalysisDto> findByChatId(int chatId);
 
 	List<PersonaAnalysisDto> findByParticipantId(int participantId);
 

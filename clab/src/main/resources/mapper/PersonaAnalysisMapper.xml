@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!-- 채팅 id로 조회 -->
-    <select id="findByChattingId" parameterType="int" resultMap="personaAnalysisMap">
+    <select id="findByChatId" parameterType="int" resultMap="personaAnalysisMap">
         SELECT
             id,
             chat_id,
