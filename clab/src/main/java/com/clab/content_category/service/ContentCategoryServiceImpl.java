@@ -1,0 +1,53 @@
+package com.clab.content_category.service;
+
+import org.springframework.stereotype.Service;
+
+import com.clab.common.exception.CustomException;
+import com.clab.common.exception.ErrorCode;
+import com.clab.content_category.dao.ContentCategoryMapper;
+import com.clab.content_category.dto.ContentCategoryDto;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ContentCategoryServiceImpl implements ContentCategoryService{
+	
+	private final ContentCategoryMapper mapper;
+
+	@Override
+	public ContentCategoryDto findById(int id) {
+		ContentCategoryDto dto = mapper.findById(id);
+		if(dto == null) {
+			throw new CustomException(ErrorCode.CONTENT_CATEGORY_NOT_FOUND);
+		}
+		return dto;
+	}
+
+	@Override
+	public ContentCategoryDto findByContentId(int contentId) {
+		ContentCategoryDto dto = mapper.findByContentId(contentId);
+		if(dto == null) {
+			throw new CustomException(ErrorCode.CONTENT_CATEGORY_NOT_FOUND);
+		}
+		return dto;
+	}
+
+	@Override
+	public int insert(ContentCategoryDto dto) {
+		int result = mapper.insert(dto);
+		if(result == 0) {
+			throw new CustomException(ErrorCode.CONTENT_CATEGORY_INSERT_FAILED);
+		}
+		return dto.getId();
+	}
+
+	@Override
+	public void delete(int id) {
+		int result = mapper.delete(id);
+		if(result == 0) {
+			throw new CustomException(ErrorCode.CONTENT_CATEGORY_DELETE_FAILED);
+		}
+	}
+
+}

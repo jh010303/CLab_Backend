@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clab.participant_category.dao.ParticipantCategoryMapper">
+
+	<resultMap id="participantCategoryMap"
+		type="com.clab.participant_category.dto.ParticipantCategoryDto">
+		<id property="id" column="id" />
+		<result property="participantId" column="participant_id" />
+		<result property="categoryId" column="category_id" />
+	</resultMap>
+
+	<select id="findByParticipantId" parameterType="int"
+		resultMap="participantCategoryMap">
+		SELECT
+		id,
+		participant_id,
+		category_id
+		FROM participant_category
+		WHERE participant_id = #{participantId}
+	</select>
+
+	<!-- 등록 -->
+	<insert id="insert"
+		parameterType="com.clab.participant_category.dto.ParticipantCategoryDto"
+		useGeneratedKeys="true" keyProperty="id">
+
+		INSERT INTO participant_category
+		(
+			participant_id,
+			category_id
+		)
+		VALUES
+		(
+			#{participantId},
+			#{categoryId}
+		)
+
+	</insert>
+
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+
+		DELETE FROM participant_category
+		WHERE id = #{id}
+
+	</delete>
+	
+	<!-- 삭제 -->
+	<delete id="deleteByParticipantId" parameterType="int">
+
+		DELETE FROM participant_category
+		WHERE participant_id = #{participantId}
+
+	</delete>
+
+</mapper>
