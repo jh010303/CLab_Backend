@@ -10,12 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="chatId" column="chat_id"/>
         <result property="name" column="name"/>
         <result property="count" column="count"/>
-        <result property="score" column="score"/>
         <result property="averageReplyTime" column="average_reply_time"/>
         <result property="chatLength" column="chat_length"/>
-        <result property="comment" column="comment"/>
-        <result property="alias" column="alias"/>
-        <result property="personaId" column="persona_id"/>
     </resultMap>
 
     <!-- 전체 조회 -->
@@ -25,12 +21,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             chat_id,
             name,
             count,
-            score,
             average_reply_time,
-            chat_length,
-            comment,
-            alias,
-            persona_id
+            chat_length
         FROM participant
     </select>
 
@@ -43,17 +35,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             chat_id,
             name,
             count,
-            score,
             average_reply_time,
-            chat_length,
-            comment,
-            alias,
-            persona_id
+            chat_length
         FROM participant
         WHERE id = #{id}
     </select>
-    
-    <select id="findByChatId" 
+
+    <select id="findByChatId"
     		parameterType="int"
     		resultMap="participantMap">
         SELECT
@@ -61,64 +49,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             chat_id,
             name,
             count,
-            score,
             average_reply_time,
-            chat_length,
-            comment,
-            alias,
-            persona_id
+            chat_length
         FROM participant
         WHERE chat_id = #{chatId}
     </select>
-    
+
     <!-- 등록 -->
     <insert id="insert"
     parameterType="com.clab.participant.dto.ParticipantDto"
     useGeneratedKeys="true"
     keyProperty="id"
     >
-
         INSERT INTO participant
         (
             chat_id,
             name,
             count,
-            score,
             average_reply_time,
-            chat_length,
-            comment,
-            alias,
-            persona_id
+            chat_length
         )
         VALUES
         (
             #{chatId},
             #{name},
             #{count},
-            #{score},
             #{averageReplyTime},
-            #{chatLength},
-            #{comment},
-            #{alias},
-            #{personaId}
+            #{chatLength}
         )
-
     </insert>
 
     <!-- 삭제 -->
     <delete id="delete" parameterType="int">
-
         DELETE FROM participant
         WHERE id = #{id}
-
     </delete>
 
     <!-- 삭제 -->
     <delete id="deleteByChatId" parameterType="int">
-
         DELETE FROM participant
         WHERE chat_id = #{chatId}
-
     </delete>
-    
+
 </mapper>

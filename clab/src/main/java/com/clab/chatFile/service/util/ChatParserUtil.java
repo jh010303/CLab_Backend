@@ -1,30 +1,34 @@
-package com.clab.chat_file.service;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.clab.chat_file.dto.ParsedMessage;
+package com.clab.chatFile.service.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Slf4j
-@Service // Spring Bean으로 등록
-public class ChatParserServiceImpl implements ChatParserService {
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
-    private static final Pattern MESSAGE_PATTERN =
+import com.clab.chatFile.dto.ParsedMessage;
+import com.clab.content.dto.ContentDto;
+import com.clab.participant.dto.ParticipantDto;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Component
+@Slf4j
+public class ChatParserUtil {
+	private static final Pattern MESSAGE_PATTERN =
             Pattern.compile("^\\[(.+?)\\]\\s*\\[(오전|오후)\\s*(\\d{1,2}:\\d{2})\\]\\s*(.+)$");
 
     private static final Pattern DATE_PATTERN =
@@ -99,12 +103,51 @@ public class ChatParserServiceImpl implements ChatParserService {
     }
     
     // 참여자 이름 목록 (순서 유지, 중복 제거)
-    @Override
     public List<String> extractParticipants(List<ParsedMessage> messages) {
         return messages.stream()
             .map(ParsedMessage::getSender)
             .distinct()
             .collect(Collectors.toList());
+    }
+
+    public List<ParticipantDto> buildParticipantDtos(List<ParsedMessage> messages, int chatId) {
+        return extractParticipants(messages).stream().map(name -> {
+            List<ParsedMessage> myMessages = messages.stream()
+                .filter(m -> m.getSender().equals(name))
+                .collect(Collectors.toList());
+            int count = myMessages.size();
+            Integer averageReplyTime = calculateAverageReplyTime(messages, name);
+            int chatLength = myMessages.stream().mapToInt(m -> m.getContent().length()).sum();
+            return new ParticipantDto(null, chatId, name, count, averageReplyTime, chatLength);
+        }).collect(Collectors.toList());
+    }
+
+    public List<ContentDto> buildContentDtos(List<ParsedMessage> messages, String senderName, int participantId) {
+        return messages.stream()
+            .filter(m -> m.getSender().equals(senderName))
+            .map(m -> new ContentDto(null, participantId, m.getContent(), m.getTime()))
+            .collect(Collectors.toList());
+    }
+
+    public Integer calculateAverageReplyTime(List<ParsedMessage> allMessages, String senderName) {
+        List<ParsedMessage> sorted = allMessages.stream()
+            .sorted(Comparator.comparing(ParsedMessage::getTime))
+            .collect(Collectors.toList());
+
+        List<Long> replySeconds = new ArrayList<>();
+        for (int i = 0; i < sorted.size(); i++) {
+            if (!sorted.get(i).getSender().equals(senderName)) continue;
+            for (int j = i - 1; j >= 0; j--) {
+                if (!sorted.get(j).getSender().equals(senderName)) {
+                    long secs = Duration.between(sorted.get(j).getTime(), sorted.get(i).getTime()).getSeconds();
+                    if (secs >= 0) replySeconds.add(secs);
+                    break;
+                }
+            }
+        }
+
+        if (replySeconds.isEmpty()) return null;
+        return (int) replySeconds.stream().mapToLong(Long::longValue).average().orElse(0);
     }
 
     private LocalTime parseLocalTime(String amPm, String timeStr) {

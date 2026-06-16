@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,16 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.clab.chat.dto.ChatDto;
 import com.clab.chat.service.ChatService;
-import com.clab.chat_file.dto.ParsedMessage;
-import com.clab.chat_file.service.ChatParserService;
 import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
-import com.clab.content.dto.ContentDto;
-import com.clab.content.service.ContentService;
-import com.clab.participant.dto.ParticipantDto;
-import com.clab.participant.service.ParticipantService;
-
-import io.jsonwebtoken.io.IOException;
 import com.clab.common.security.CustomUserDetails;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,9 +38,6 @@ import lombok.RequiredArgsConstructor;
 public class ChatController {
 	
 	private final ChatService chatService;
-	private final ChatParserService charParserService;
-	private final ParticipantService participantService;
-	private final ContentService contentService;
 	
 	@GetMapping
 	@Operation(summary = "전체 채팅 목록 조회", description = "admin이 추가 되면 사용함")
@@ -97,39 +85,6 @@ public class ChatController {
 			@RequestPart("file") MultipartFile file) {
 		int userId = userDetails.getMember().getId();
 		int id = chatService.insert(dto,file,userId);
-		
-		List<ParsedMessage> messages = charParserService.parseChatLog(file);
-		List<String> participantNames = charParserService.extractParticipants(messages);
-		
-		for (String name : participantNames) {
-	      // 해당 참여자 메시지 필터링
-	      List<ParsedMessage> myMessages = messages.stream()
-	          .filter(m -> m.getSender().equals(name))
-	          .collect(Collectors.toList());
-	      
-	      ParticipantDto participantDto = new ParticipantDto();
-	      participantDto.setChatId(id);
-	      participantDto.setName(name);
-	      participantDto.setCount(myMessages.size());
-	      participantDto.setScore(100);
-	      participantDto.setAverageReplyTime(90);
-	      participantDto.setChatLength(
-	          (long) myMessages.stream()
-	              .mapToInt(m -> m.getContent().length())
-	              .sum()
-	      );
-	      participantDto.setComment("---");
-	      participantDto.setAlias(name);
-	      participantDto.setPersonaId(1);
-	      participantService.insert(participantDto);
-	      
-	      int participantId = participantDto.getId();
-	      
-	      for(ParsedMessage m : myMessages) {
-	      	ContentDto c = new ContentDto(null, participantId, m.getContent(), m.getTime());
-	      	contentService.insert(c);
-	      }
-		}
 		
 		ApiResponse response = new ApiResponse(SuccessCode.INSERT_SUCCESS, Map.of("id", id));
 		return ResponseEntity
