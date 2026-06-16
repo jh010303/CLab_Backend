@@ -47,7 +47,7 @@ public class PersonaAnalysisController {
 
 	@GetMapping("/chat/{chatId}")
 	@Operation(summary = "채팅 id로 조회")
-	public ResponseEntity<ApiResponse> findByChattingId(@PathVariable("chatId") int chatId) {
+	public ResponseEntity<ApiResponse> findByChatId(@PathVariable("chatId") int chatId) {
 		List<PersonaAnalysisDto> result = personaAnalysisService.findByChatId(chatId);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity.status(response.getStatus()).body(response);
