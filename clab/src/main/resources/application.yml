@@ -7,6 +7,16 @@ spring:
     url: jdbc:mysql://localhost:3306/clabdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ssafy
     password: ssafy
+  ai:
+    openai:
+      api-key: ${api-key}
+      base-url: https://gms.ssafy.io/gmsapi/api.openai.com/v1/
+      chat:
+        completions-path: chat/completions
+        options:
+          model: gpt-4o-mini
+    model:
+      chat: openai
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
