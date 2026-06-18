@@ -1,6 +1,8 @@
 package com.clab.chat.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,12 +13,20 @@ import com.clab.chat.dto.ChatDto;
 import com.clab.chatFile.dto.ParsedMessage;
 import com.clab.chatFile.service.ChatFileService;
 import com.clab.chatFile.service.util.ChatParserUtil;
+import com.clab.common.ai.AiUtil;
+import com.clab.common.ai.AiUtil.ParticipantAnalysis;
 import com.clab.common.exception.CustomException;
 import com.clab.common.exception.ErrorCode;
 import com.clab.content.dto.ContentDto;
 import com.clab.content.service.ContentService;
+import com.clab.content_category.dto.ContentCategoryDto;
+import com.clab.content_category.service.ContentCategoryService;
 import com.clab.participant.dto.ParticipantDto;
 import com.clab.participant.service.ParticipantService;
+import com.clab.participant_category.dto.ParticipantCategoryDto;
+import com.clab.participant_category.service.ParticipantCategoryService;
+import com.clab.personaAnalysis.dto.PersonaAnalysisDto;
+import com.clab.personaAnalysis.service.PersonaAnalysisService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +39,10 @@ public class ChatServiceImpl implements ChatService {
 	private final ParticipantService participantService;
 	private final ContentService contentService;
 	private final ChatParserUtil chatParserUtil;
+	private final AiUtil aiUtil;
+	private final ContentCategoryService contentCategoryService;
+	private final ParticipantCategoryService participantCategoryService;
+	private final PersonaAnalysisService personaAnalysisService;
 
 	@Override
 	public List<ChatDto> findAll() {
@@ -70,8 +84,39 @@ public class ChatServiceImpl implements ChatService {
 
 		for (ParticipantDto participantDto : participantDtos) {
 			participantService.insert(participantDto);
-			List<ContentDto> contentDtos = chatParserUtil.buildContentDtos(messages, participantDto.getName(), participantDto.getId());
-			contentDtos.forEach(contentService::insert);
+			int participantId = participantDto.getId();
+
+			List<ContentDto> contentDtos = chatParserUtil.buildContentDtos(messages, participantDto.getName(), participantId);
+
+			// content 전체를 한 번에 AI에 보내 카테고리 배치 분류
+			List<List<Integer>> categories = aiUtil.assignCategories(contentDtos);
+
+			Map<Integer, Integer> categoryCountMap = new HashMap<>();
+
+			for (int i = 0; i < contentDtos.size(); i++) {
+				int contentId = contentService.insert(contentDtos.get(i));
+				List<Integer> categoryIds = categories.get(i);
+
+				for (Integer categoryId : categoryIds) {
+					contentCategoryService.insert(new ContentCategoryDto(null, contentId, categoryId));
+					categoryCountMap.merge(categoryId, 1, Integer::sum);
+				}
+			}
+
+			// 집계된 카테고리 개수로 participant_category 생성
+			for (Map.Entry<Integer, Integer> entry : categoryCountMap.entrySet()) {
+				participantCategoryService.insert(
+						new ParticipantCategoryDto(null, participantId, entry.getKey(), entry.getValue())
+				);
+			}
+
+			// 참여자 말투 AI 분석 → persona_analysis 생성
+			ParticipantAnalysis analysis = aiUtil.analyzeParticipant(contentDtos, categoryCountMap);
+			int personaId = resolvePersonaId(categoryCountMap);
+			personaAnalysisService.insert(new PersonaAnalysisDto(
+					null, chatId, participantId, personaId,
+					analysis.analysisSummary(), analysis.speechStyle(), analysis.tetoScore()
+			));
 		}
 
 		return chatId;
@@ -101,7 +146,7 @@ public class ChatServiceImpl implements ChatService {
 		if (chat == null) {
 			throw new CustomException(ErrorCode.CHAT_NOT_FOUND);
 		}
-		
+
 		if (userId != chat.getUserId()) {
 			throw new CustomException(ErrorCode.FORBIDDEN);
 		}
@@ -110,5 +155,39 @@ public class ChatServiceImpl implements ChatService {
 		if (result == 0) {
 			throw new CustomException(ErrorCode.CHAT_BAD_REQUEST);
 		}
+	}
+
+	// 6개 카테고리 평균 계산 → 평균에서 가장 크게 벗어난 카테고리를 대표 특성으로 선택
+	// 평균보다 높으면 high 페르소나, 낮으면 low 페르소나 배정
+	private int resolvePersonaId(Map<Integer, Integer> categoryCountMap) {
+		List<Integer> categoryIds = List.of(1001, 1002, 1003, 1004, 1005, 1006);
+
+		double average = categoryIds.stream()
+				.mapToInt(id -> categoryCountMap.getOrDefault(id, 0))
+				.average()
+				.orElse(0);
+
+		int dominantCategory = 0;
+		double maxDeviation = 0;
+
+		for (int categoryId : categoryIds) {
+			double deviation = categoryCountMap.getOrDefault(categoryId, 0) - average;
+			if (Math.abs(deviation) > Math.abs(maxDeviation)) {
+				maxDeviation = deviation;
+				dominantCategory = categoryId;
+			}
+		}
+
+		boolean isHigh = maxDeviation > 0;
+
+		return switch (dominantCategory) {
+			case 1001 -> isHigh ? 1000 : 1001; // 감정표현도: 리액션 화산 / 포커페이스
+			case 1002 -> isHigh ? 1002 : 1003; // 확신성: 결론부터 말해봄 / 일단 열어두는 편
+			case 1003 -> isHigh ? 1004 : 1005; // 지시성: 총대 메는 대장 / 흐름에 맡기는 물결
+			case 1004 -> isHigh ? 1006 : 1007; // 직설성: 돌직구 장인 / 쿠션어 마스터
+			case 1005 -> isHigh ? 1008 : 1009; // 공감성: 감정 공명러 / 팩트만 챙기는 사람
+			case 1006 -> isHigh ? 1010 : 1011; // 배려도: 눈치력 만렙 / 내 페이스대로 간다
+			default   -> 1003;                  // 모든 카테고리 count 동일 → 일단 열어두는 편
+		};
 	}
 }
