@@ -49,7 +49,9 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void update(int id, MemberDto dto) {
-		int changed = mapper.update(id, dto);
+		String encodedPassword = passwordEncoder.encode(dto.getPassword());
+		MemberDto member = new MemberDto(dto.getId(), dto.getEmail(), encodedPassword, dto.getUsername(), dto.getImage());
+		int changed = mapper.update(id, member);
 		if (changed == 0) {
 			throw new CustomException(ErrorCode.MEMBER_BAD_REQUEST);
 		}
