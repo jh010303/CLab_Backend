@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             reaction_received_score,
             assigned_task
         FROM meeting_participation
-        WHERE chat_id = #{chatId}
+        WHERE meeting_analysis_id = #{meetingAnalysisId}
     </select>
 
     <!-- 등록 -->
