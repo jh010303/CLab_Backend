@@ -2,15 +2,12 @@ server:
   port: 8080
 
 spring:
+  config:
+    import: optional:classpath:application-secret.yml
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/clabdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: ssafy
-    password: ssafy
   ai:
     openai:
-      api-key: ${api-key}
-      base-url: https://gms.ssafy.io/gmsapi/api.openai.com/v1/
       chat:
         completions-path: chat/completions
         options:
@@ -35,7 +32,6 @@ clab:
   jwt:
     access-expmin: 60
     refresh-expmin: 1
-    secret-string: 4sP3z3euxNgx5GLCw5ExlwxpYB575myDQ3y27mtzYgblL7ofNzbd6Obz41zSQz4SFIG+rATcRUTKxRAXnMVexQ==
 
 upload:
   local:
