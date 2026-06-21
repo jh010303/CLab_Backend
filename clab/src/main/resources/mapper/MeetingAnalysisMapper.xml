@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clab.meetingAnalysis.dao.MeetingAnalysisMapper">
+
+    <resultMap id="meetingAnalysisMap" type="com.clab.meetingAnalysis.dto.MeetingAnalysisDto">
+        <id property="id" column="id"/>
+        <result property="chatId" column="chat_id"/>
+        <result property="topic" column="topic"/>
+        <result property="startedAt" column="started_at"/>
+        <result property="endedAt" column="ended_at"/>
+        <result property="keywords" column="keywords"/>
+        <result property="atmosphere" column="atmosphere"/>
+        <result property="meetingSummary" column="meeting_summary"/>
+        <result property="actionItems" column="action_items"/>
+    </resultMap>
+
+    <!-- 전체 조회 -->
+    <select id="findByChatId" resultMap="meetingAnalysisMap">
+        SELECT
+            id,
+            chat_id,
+            topic,
+            started_at,
+            ended_at,
+            keywords,
+            atmosphere,
+            meeting_summary,
+            action_items
+        FROM meeting_analysis
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insert"
+            parameterType="com.clab.meetingAnalysis.dto.MeetingAnalysisDto"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO meeting_analysis
+        (
+            chat_id,
+            topic,
+            started_at,
+            ended_at,
+            keywords,
+            atmosphere,
+            meeting_summary,
+            action_items
+        )
+        VALUES
+        (
+            #{chatId},
+            #{topic},
+            #{startedAt},
+            #{endedAt},
+            #{keywords},
+            #{atmosphere},
+            #{meetingSummary},
+            #{actionItems}
+        )
+    </insert>
+
+</mapper>

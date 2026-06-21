@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clab.meetingParticipation.dao.MeetingParticipationMapper">
+
+    <resultMap id="meetingParticipationMap" type="com.clab.meetingParticipation.dto.MeetingParticipationDto">
+        <id property="id" column="id"/>
+        <result property="meetingAnalysisId" column="meeting_analysis_id"/>
+        <result property="partipantId" column="partipant_id"/>
+        <result property="meaningfulUtteranceCount" column="meaningful_utterance_count"/>
+        <result property="keyOpinion" column="key_opinion"/>
+        <result property="participationScore" column="participation_score"/>
+        <result property="topicInitiationCount" column="topic_initiation_count"/>
+        <result property="reactionReceivedScore" column="reaction_received_score"/>
+        <result property="assignedTask" column="assigned_task"/>
+    </resultMap>
+
+	<!-- 회의 분석 id로 조회 -->
+    <select id="findByMeetingAnalysisId" resultMap="meetingParticipationMap">
+        SELECT
+            id,
+            meeting_analysis_id,
+            participant_id,
+            meaningful_utterance_count,
+            key_opinion,
+            participation_score,
+            topic_initiation_count,
+            reaction_received_score,
+            assigned_task
+        FROM meeting_participation
+        WHERE chat_id = #{chatId}
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insert"
+            parameterType="com.clab.meetingParticipation.dto.MeetingParticipationDto"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO meeting_participation
+        (
+            meeting_analysis_id,
+            participant_id,
+            meaningful_utterance_count,
+            key_opinion,
+            participation_score,
+            topic_initiation_count,
+            reaction_received_score,
+            assigned_task
+        )
+        VALUES
+        (
+            #{meetingAnalysisId},
+            #{participantId},
+            #{meaningfulUtteranceCount},
+            #{keyOpinion},
+            #{participationScore},
+            #{topicInitiationCount},
+            #{reactionReceivedScore},
+            #{assignedTask}
+        )
+    </insert>
+
+</mapper>
