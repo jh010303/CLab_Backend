@@ -102,9 +102,22 @@ public enum ErrorCode implements BaseCode {
 	PERSONA_ANALYSIS_NOT_FOUND(404, "PA-001", "인물 분석을 조회할 수 없습니다."),
 	PERSONA_ANALYSIS_INSERT_FAILED(400, "PA-002", "인물 분석 생성에 실패하였습니다."),
 	PERSONA_ANALYSIS_UPDATE_FAILED(400, "PA-003", "인물 분석 수정에 실패하였습니다."),
-	PERSONA_ANALYSIS_DELETE_FAILED(400, "PA-004", "인물 분석 삭제에 실패하였습니다.")
+	PERSONA_ANALYSIS_DELETE_FAILED(400, "PA-004", "인물 분석 삭제에 실패하였습니다."),
 	// PersonaAnalysis Error --- END
 	
+	// MeetingAnalysis Error --- BEGIN
+	MEETING_ANALYSIS_NOT_FOUND(404, "MA-001", "회의 분석을 조회할 수 없습니다."),
+	MEETING_ANALYSIS_INSERT_FAILED(400, "MA-002", "회의 분석 생성에 실패하였습니다."),
+	MEETING_ANALYSIS_UPDATE_FAILED(400, "MA-003", "회의 분석 수정에 실패하였습니다."),
+	MEETING_ANALYSIS_DELETE_FAILED(400, "MA-004", "회의 분석 삭제에 실패하였습니다."),
+	// MeetingAnalysis Error --- END
+	
+	// MeetingParticipation Error --- BEGIN
+	MEETING_PARTICIPATION_NOT_FOUND(404, "MP-001", "회의 참여을 조회할 수 없습니다."),
+	MEETING_PARTICIPATION_INSERT_FAILED(400, "MP-002", "회의 참여 생성에 실패하였습니다."),
+	MEETING_PARTICIPATION_UPDATE_FAILED(400, "MP-003", "회의 참야 수정에 실패하였습니다."),
+	MEETING_PARTICIPATIONDELETE_FAILED(400, "MP-004", "회의 참여 삭제에 실패하였습니다."),
+	// MeetingParticipation Error --- END
 	
 	; // End
 	

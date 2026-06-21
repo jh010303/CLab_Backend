@@ -1,5 +1,6 @@
 package com.clab.chat.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,10 @@ import com.clab.content.dto.ContentDto;
 import com.clab.content.service.ContentService;
 import com.clab.contentCategory.dto.ContentCategoryDto;
 import com.clab.contentCategory.service.ContentCategoryService;
+import com.clab.meetingAnalysis.dto.MeetingAnalysisDto;
+import com.clab.meetingAnalysis.service.MeetingAnalysisService;
+import com.clab.meetingParticipation.dto.MeetingParticipationDto;
+import com.clab.meetingParticipation.service.MeetingParticipationService;
 import com.clab.participant.dto.ParticipantDto;
 import com.clab.participant.service.ParticipantService;
 import com.clab.participantCategory.dto.ParticipantCategoryDto;
@@ -43,6 +48,8 @@ public class ChatServiceImpl implements ChatService {
 	private final ContentCategoryService contentCategoryService;
 	private final ParticipantCategoryService participantCategoryService;
 	private final PersonaAnalysisService personaAnalysisService;
+	private final MeetingAnalysisService meetingAnalysisService;
+	private final MeetingParticipationService meetingParticipationService;
 
 	@Override
 	public List<ChatDto> findAll() {
@@ -71,7 +78,7 @@ public class ChatServiceImpl implements ChatService {
 	@Transactional
 	public int insert(ChatDto dto, MultipartFile file, int userId) {
 		int chatFileId = chatFileService.storeFile(file);
-		ChatDto insertDto = new ChatDto(null, userId, chatFileId, null, null, dto.getTitle(), dto.getContent());
+		ChatDto insertDto = new ChatDto(null, userId, chatFileId, null, null, dto.getTitle(), dto.getContent(), dto.getCategory());
 		int chatResult = chatMapper.insert(insertDto);
 
 		if (chatResult == 0) {
@@ -80,6 +87,20 @@ public class ChatServiceImpl implements ChatService {
 		int chatId = insertDto.getId();
 
 		List<ParsedMessage> messages = chatParserUtil.parseChatLog(file);
+		
+		String analysisType = dto.getCategory();
+		
+		if ("EMOTION".equals(analysisType)) {
+	        processEmotionAnalysis(messages, chatId);
+	    } else if ("MEETING".equals(analysisType)) {
+	        processMeetingAnalysis(messages, chatId);
+	    } else {
+	        throw new CustomException(ErrorCode.CHAT_BAD_REQUEST); // 예외 처리 추가 권장
+	    }
+		return chatId;
+	}
+	
+	private void processEmotionAnalysis(List<ParsedMessage> messages, int chatId) {
 		List<ParticipantDto> participantDtos = chatParserUtil.buildParticipantDtos(messages, chatId);
 
 		for (ParticipantDto participantDto : participantDtos) {
@@ -118,8 +139,43 @@ public class ChatServiceImpl implements ChatService {
 					analysis.analysisSummary(), analysis.speechStyle(), analysis.tetoScore()
 			));
 		}
-
-		return chatId;
+	}
+	
+	private void processMeetingAnalysis(List<ParsedMessage> messages, int chatId) {
+		List<ParticipantDto> participantDtos = chatParserUtil.buildParticipantDtos(messages, chatId);
+		
+		List<MeetingParticipationDto> pendingParticipations = new ArrayList<>();
+		
+		for (ParticipantDto participantDto : participantDtos) {
+			// 참여자 테이블 insert (공통)
+			participantService.insert(participantDto);
+			int participantId = participantDto.getId();
+			
+			List<ContentDto> contentDtos = chatParserUtil.buildContentDtos(messages, participantDto.getName(), participantId);
+			
+			for (ContentDto contentDto : contentDtos) {
+				contentService.insert(contentDto); // 각 발화 내용 DB 저장
+			}
+			
+			MeetingParticipationDto participationDto = aiUtil.analyzeMeetingParticipation(
+	                contentDtos, 
+	                participantDto.getName(), 
+	                participantId
+	        );
+			
+			pendingParticipations.add(participationDto);
+			
+		}
+			
+	    // 1. 전체 회의 단위 분석 (주제, 요약 등)
+	    MeetingAnalysisDto analysisDto = aiUtil.analyzeMeetingOverview(messages, pendingParticipations, chatId);
+	    meetingAnalysisService.insert(analysisDto);
+	    int meetingAnalysisId = analysisDto.getId(); // insert 후 발급된 ID 가져오기
+	    
+	    for (MeetingParticipationDto participationDto : pendingParticipations) {
+	        participationDto.setMeetingAnalysisId(meetingAnalysisId); // Setter 필요
+	        meetingParticipationService.insert(participationDto);
+	    }
 	}
 
 	@Override

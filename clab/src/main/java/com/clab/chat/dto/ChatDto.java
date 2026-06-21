@@ -27,4 +27,5 @@ public class ChatDto {
 	private LocalDateTime updatedAt;
 	private String title;
 	private String content;
+	private String category;
 }
