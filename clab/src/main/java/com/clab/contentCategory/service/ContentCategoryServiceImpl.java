@@ -1,4 +1,4 @@
-package com.clab.content_category.service;
+package com.clab.contentCategory.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.clab.common.exception.CustomException;
 import com.clab.common.exception.ErrorCode;
-import com.clab.content_category.dao.ContentCategoryMapper;
-import com.clab.content_category.dto.ContentCategoryDto;
+import com.clab.contentCategory.dao.ContentCategoryMapper;
+import com.clab.contentCategory.dto.ContentCategoryDto;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,10 +1,10 @@
-package com.clab.content_category.dao;
+package com.clab.contentCategory.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.clab.content_category.dto.ContentCategoryDto;
+import com.clab.contentCategory.dto.ContentCategoryDto;
 
 @Mapper
 public interface ContentCategoryMapper {

@@ -1,8 +1,8 @@
-package com.clab.content_category.service;
+package com.clab.contentCategory.service;
 
 import java.util.List;
 
-import com.clab.content_category.dto.ContentCategoryDto;
+import com.clab.contentCategory.dto.ContentCategoryDto;
 
 public interface ContentCategoryService {
 

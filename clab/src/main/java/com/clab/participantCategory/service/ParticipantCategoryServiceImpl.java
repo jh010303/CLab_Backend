@@ -1,4 +1,4 @@
-package com.clab.participant_category.service;
+package com.clab.participantCategory.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.clab.common.exception.CustomException;
 import com.clab.common.exception.ErrorCode;
-import com.clab.participant_category.dao.ParticipantCategoryMapper;
-import com.clab.participant_category.dto.ParticipantCategoryDto;
+import com.clab.participantCategory.dao.ParticipantCategoryMapper;
+import com.clab.participantCategory.dto.ParticipantCategoryDto;
 
 import lombok.RequiredArgsConstructor;
 
