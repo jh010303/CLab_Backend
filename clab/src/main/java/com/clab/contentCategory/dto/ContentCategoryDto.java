@@ -1,14 +1,12 @@
-package com.clab.participant_category.dto;
+package com.clab.contentCategory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ParticipantCategoryDto {
+public class ContentCategoryDto {
 	private Integer id;
-	private Integer participantId;
+	private Integer contentId;
 	private Integer categoryId;
-	private Integer count;
-
 }

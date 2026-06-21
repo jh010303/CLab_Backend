@@ -1,4 +1,4 @@
-package com.clab.content_category.controller;
+package com.clab.contentCategory.controller;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
-import com.clab.content_category.dto.ContentCategoryDto;
-import com.clab.content_category.service.ContentCategoryService;
+import com.clab.contentCategory.dto.ContentCategoryDto;
+import com.clab.contentCategory.service.ContentCategoryService;
 
 import lombok.RequiredArgsConstructor;
 

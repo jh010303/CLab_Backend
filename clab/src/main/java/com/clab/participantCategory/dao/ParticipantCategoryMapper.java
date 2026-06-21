@@ -1,10 +1,10 @@
-package com.clab.participant_category.dao;
+package com.clab.participantCategory.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.clab.participant_category.dto.ParticipantCategoryDto;
+import com.clab.participantCategory.dto.ParticipantCategoryDto;
 
 @Mapper
 public interface ParticipantCategoryMapper {

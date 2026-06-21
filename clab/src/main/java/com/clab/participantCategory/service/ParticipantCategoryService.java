@@ -1,8 +1,8 @@
-package com.clab.participant_category.service;
+package com.clab.participantCategory.service;
 
 import java.util.List;
 
-import com.clab.participant_category.dto.ParticipantCategoryDto;
+import com.clab.participantCategory.dto.ParticipantCategoryDto;
 
 public interface ParticipantCategoryService {
 

@@ -3,10 +3,10 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.clab.content_category.dao.ContentCategoryMapper">
+<mapper namespace="com.clab.contentCategory.dao.ContentCategoryMapper">
 
 	<resultMap id="contentCategoryMap"
-		type="com.clab.content_category.dto.ContentCategoryDto">
+		type="com.clab.contentCategory.dto.ContentCategoryDto">
 		<id property="id" column="id" />
 		<result property="contentId" column="content_id" />
 		<result property="categoryId" column="category_id" />
@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 등록 -->
 	<insert id="insert"
-		parameterType="com.clab.content_category.dto.ContentCategoryDto"
+		parameterType="com.clab.contentCategory.dto.ContentCategoryDto"
 		useGeneratedKeys="true" keyProperty="id">
 
 		INSERT INTO content_category

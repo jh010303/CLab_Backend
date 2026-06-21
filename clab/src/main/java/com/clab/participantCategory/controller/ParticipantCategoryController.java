@@ -1,4 +1,4 @@
-package com.clab.participant_category.controller;
+package com.clab.participantCategory.controller;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
-import com.clab.participant_category.dto.ParticipantCategoryDto;
-import com.clab.participant_category.service.ParticipantCategoryService;
+import com.clab.participantCategory.dto.ParticipantCategoryDto;
+import com.clab.participantCategory.service.ParticipantCategoryService;
 
 import lombok.RequiredArgsConstructor;
 

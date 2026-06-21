@@ -19,12 +19,12 @@ import com.clab.common.exception.CustomException;
 import com.clab.common.exception.ErrorCode;
 import com.clab.content.dto.ContentDto;
 import com.clab.content.service.ContentService;
-import com.clab.content_category.dto.ContentCategoryDto;
-import com.clab.content_category.service.ContentCategoryService;
+import com.clab.contentCategory.dto.ContentCategoryDto;
+import com.clab.contentCategory.service.ContentCategoryService;
 import com.clab.participant.dto.ParticipantDto;
 import com.clab.participant.service.ParticipantService;
-import com.clab.participant_category.dto.ParticipantCategoryDto;
-import com.clab.participant_category.service.ParticipantCategoryService;
+import com.clab.participantCategory.dto.ParticipantCategoryDto;
+import com.clab.participantCategory.service.ParticipantCategoryService;
 import com.clab.personaAnalysis.dto.PersonaAnalysisDto;
 import com.clab.personaAnalysis.service.PersonaAnalysisService;
 
