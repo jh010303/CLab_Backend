@@ -3,6 +3,7 @@ package com.clab.member.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.clab.common.exception.CustomException;
 import com.clab.common.exception.ErrorCode;
@@ -34,6 +35,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional
 	public void insert(MemberDto dto) {
 		if (mapper.findByEmail(dto.getEmail()) != null) {
 			throw new CustomException(ErrorCode.MEMBER_DUPLICATED);
@@ -48,6 +50,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional
 	public void update(int id, MemberDto dto) {
 		String encodedPassword = passwordEncoder.encode(dto.getPassword());
 		MemberDto member = new MemberDto(dto.getId(), dto.getEmail(), encodedPassword, dto.getUsername(), dto.getImage());
@@ -58,6 +61,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional
 	public void delete(int id) {
 		int changed = mapper.delete(id);
 		if (changed == 0) {

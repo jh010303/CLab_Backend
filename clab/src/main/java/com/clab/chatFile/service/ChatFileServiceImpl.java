@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.clab.chatFile.dao.ChatFileMapper;
@@ -37,6 +38,7 @@ public class ChatFileServiceImpl implements ChatFileService {
 	}
 	
 	@Override
+	@Transactional
 	public int storeFile(MultipartFile file) {
 		String originalFileName = file.getOriginalFilename();
 		String saveFileName = generateStoredFileName(originalFileName);
@@ -73,6 +75,7 @@ public class ChatFileServiceImpl implements ChatFileService {
 
 
 	@Override
+	@Transactional
 	public int delete(int id) {
 		ChatFileDto chatFile = mapper.findById(id);
 		if(chatFile==null) {

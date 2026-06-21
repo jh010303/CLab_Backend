@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.clab.auth.dto.LoginDto;
 import com.clab.common.exception.CustomException;
@@ -30,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
 	private final AuthenticationManager authenticationManager;
 
 	@Override
+	@Transactional
 	public Map<String, String> login(LoginDto dto) {
 		Authentication authentication;
 		try {
@@ -73,6 +75,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
+	@Transactional
 	public void logout(String refreshToken) {
 		Claims claims = jwtUtil.getClaims(refreshToken);
 		String email = claims.get("email", String.class);
