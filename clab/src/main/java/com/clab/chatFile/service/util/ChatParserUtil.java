@@ -28,69 +28,93 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class ChatParserUtil {
-	private static final Pattern MESSAGE_PATTERN =
+    // === PC 버전 카카오톡 패턴 ===
+    private static final Pattern PC_MESSAGE_PATTERN =
             Pattern.compile("^\\[(.+?)\\]\\s*\\[(오전|오후)\\s*(\\d{1,2}:\\d{2})\\]\\s*(.+)$");
-
-    private static final Pattern DATE_PATTERN =
+    private static final Pattern PC_DATE_PATTERN =
             Pattern.compile("^-+\\s*(.+?)\\s*-+$");
-    
-    private static final DateTimeFormatter DATE_FORMATTER =
+    private static final DateTimeFormatter PC_DATE_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy년 M월 d일 EEEE", Locale.KOREAN);
 
-    /**
-     * MultipartFile을 받아서 한 줄씩 읽으며 ParsedMessage 리스트로 파싱합니다.
-     */
+    // === 모바일 버전 카카오톡 패턴 ===
+    private static final Pattern MOBILE_MESSAGE_PATTERN =
+            Pattern.compile("^(\\d{4}년 \\d{1,2}월 \\d{1,2}일)\\s+(오전|오후)\\s+(\\d{1,2}:\\d{2}),\\s+(.+?)\\s*:\\s*(.+)$");
+    private static final Pattern MOBILE_DATE_PATTERN =
+            Pattern.compile("^\\d{4}년 \\d{1,2}월 \\d{1,2}일\\s+(오전|오후)\\s+\\d{1,2}:\\d{2}$");
+    private static final DateTimeFormatter MOBILE_DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy년 M월 d일", Locale.KOREAN);
+
+
     public List<ParsedMessage> parseChatLog(MultipartFile file) {
         List<ParsedMessage> parsedMessages = new ArrayList<>();
         LocalDate currentDate = null;
 
-        // 💡 MultipartFile에서 InputStream을 열고, BufferedReader로 한 줄씩 읽기 (try-with-resources로 자원 자동 반환)
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
 
             String line;
-            while (
-            		(line = reader.readLine()) != null) {
-                // 빈 줄 건너뛰기
+            while ((line = reader.readLine()) != null) {
                 if (line.trim().isEmpty()) {
                     continue;
                 }
 
-                // 1. 날짜 구분선 패턴 매칭
-                Matcher dateMatcher = DATE_PATTERN.matcher(line);
-                if (dateMatcher.matches()) {
+                Matcher pcDateMatcher = PC_DATE_PATTERN.matcher(line);
+                if (pcDateMatcher.matches()) {
                     try {
-                        String dateStr = dateMatcher.group(1).trim();
-                        currentDate = LocalDate.parse(dateStr, DATE_FORMATTER);
+                        String dateStr = pcDateMatcher.group(1).trim();
+                        currentDate = LocalDate.parse(dateStr, PC_DATE_FORMATTER);
                     } catch (Exception e) {
-                        log.error("날짜 파싱 실패 라인: {}", line, e);
+                        log.error("PC 날짜 파싱 실패 라인: {}", line, e);
                     }
                     continue;
                 }
 
-                // 2. 일반 메시지 패턴 매칭
-                Matcher msgMatcher = MESSAGE_PATTERN.matcher(line);
-                if (msgMatcher.matches()) {
+                Matcher mobileDateMatcher = MOBILE_DATE_PATTERN.matcher(line);
+                if (mobileDateMatcher.matches()) {
+                    continue;
+                }
+
+                Matcher pcMsgMatcher = PC_MESSAGE_PATTERN.matcher(line);
+                if (pcMsgMatcher.matches()) {
                     if (currentDate == null) {
                         log.warn("상단에 기준 날짜 정보가 없어 메시지를 스킵합니다: {}", line);
                         continue;
                     }
-
-                    String sender = msgMatcher.group(1);
-                    String amPm = msgMatcher.group(2);
-                    String timeStr = msgMatcher.group(3);
-                    String content = msgMatcher.group(4);
+                    String sender = pcMsgMatcher.group(1);
+                    String amPm = pcMsgMatcher.group(2);
+                    String timeStr = pcMsgMatcher.group(3);
+                    String content = pcMsgMatcher.group(4);
 
                     LocalTime localTime = parseLocalTime(amPm, timeStr);
                     LocalDateTime dateTime = LocalDateTime.of(currentDate, localTime);
 
                     parsedMessages.add(new ParsedMessage(sender, dateTime, content));
-                } else {
-                    // 3. 패턴에 맞지 않는 경우 (줄바꿈된 멀티라인 메시지 처리)
-                    if (!parsedMessages.isEmpty()) {
-                        ParsedMessage lastMessage = parsedMessages.get(parsedMessages.size() - 1);
-                        lastMessage.setContent(lastMessage.getContent() + "\n" + line);
+                    continue;
+                }
+
+                Matcher mobileMsgMatcher = MOBILE_MESSAGE_PATTERN.matcher(line);
+                if (mobileMsgMatcher.matches()) {
+                    String dateStr = mobileMsgMatcher.group(1);
+                    String amPm = mobileMsgMatcher.group(2);
+                    String timeStr = mobileMsgMatcher.group(3);
+                    String sender = mobileMsgMatcher.group(4);
+                    String content = mobileMsgMatcher.group(5);
+
+                    try {
+                        currentDate = LocalDate.parse(dateStr, MOBILE_DATE_FORMATTER);
+                        LocalTime localTime = parseLocalTime(amPm, timeStr);
+                        LocalDateTime dateTime = LocalDateTime.of(currentDate, localTime);
+
+                        parsedMessages.add(new ParsedMessage(sender, dateTime, content));
+                    } catch (Exception e) {
+                        log.error("모바일 메시지 파싱 중 날짜 변환 실패: {}", line, e);
                     }
+                    continue;
+                }
+
+                if (!parsedMessages.isEmpty()) {
+                    ParsedMessage lastMessage = parsedMessages.get(parsedMessages.size() - 1);
+                    lastMessage.setContent(lastMessage.getContent() + "\n" + line);
                 }
             }
 
@@ -101,8 +125,7 @@ public class ChatParserUtil {
 
         return parsedMessages;
     }
-    
-    // 참여자 이름 목록 (순서 유지, 중복 제거)
+
     public List<String> extractParticipants(List<ParsedMessage> messages) {
         return messages.stream()
             .map(ParsedMessage::getSender)
