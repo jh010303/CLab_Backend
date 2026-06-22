@@ -25,14 +25,4 @@ public class ParticipantMeetingDto {
 	private Integer topicInitiationCount;
 	private Integer reactionReceivedScore;
 	private String assignedTask;
-	
-	// 회의 분석
-	private Integer meetingAnalysisId;
-	private String topic;
-	private LocalDateTime startedAt;
-	private LocalDateTime endedAt;
-	private String keywords;
-	private String atmosphere;
-	private String meetingSummary;
-	private String actionItems;
 }

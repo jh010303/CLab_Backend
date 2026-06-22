@@ -53,17 +53,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="topicInitiationCount" column="topi_initiation_count"/>
         <result property="reactionReceivedScore" column="reaction_received_score"/>
         <result property="assignedTask" column="assigned_task"/>
-        
-        <!-- 회의 분석 -->
-        <result property="meetingAnalysisId" column="meeting_analysis_id"/>
-        <result property="topic" column="topic"/>
-        <result property="startedAt" column="started_at"/>
-        <result property="endedAt" column="ended_at"/>
-        <result property="keywords" column="keywords"/>
-        <result property="atmosphere" column="atmosphere"/>
-        <result property="meetingSummary" column="meeting_summary"/>
-        <result property="actionItems" column="action_items"/>
-        
     </resultMap>
 
     <!-- 전체 조회 -->
@@ -136,16 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			mp.participation_score,
 			mp.topic_initiation_count,
 			mp.reaction_received_score,
-			mp.assigned_task,
-			
-            ma.id AS meeting_analysis_id,    
-            ma.topic,
-            ma.started_at,
-            ma.ended_at,
-            ma.keywords,
-            ma.atmosphere,
-            ma.meeting_summary,
-            ma.action_items
+			mp.assigned_task
         FROM participant p
         JOIN meeting_participation mp ON p.id = mp.participant_id
         JOIN meeting_analysis ma ON mp.meeting_analysis_id = ma.id
