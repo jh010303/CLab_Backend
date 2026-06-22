@@ -121,7 +121,12 @@ public enum ErrorCode implements BaseCode {
 	MEETING_PARTICIPATION_UPDATE_FAILED(400, "MP-003", "회의 참야 수정에 실패하였습니다."),
 	MEETING_PARTICIPATIONDELETE_FAILED(400, "MP-004", "회의 참여 삭제에 실패하였습니다."),
 	// MeetingParticipation Error --- END
-	
+
+	// S3 Error --- BEGIN
+	S3_UPLOAD_FAILED(500, "S3-001", "파일 업로드에 실패하였습니다."),
+	S3_DELETE_FAILED(500, "S3-002", "파일 삭제에 실패하였습니다."),
+	// S3 Error --- END
+
 	; // End
 	
 

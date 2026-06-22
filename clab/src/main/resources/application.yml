@@ -33,6 +33,3 @@ clab:
     access-expmin: 60
     refresh-expmin: 1
 
-upload:
-  local:
-    dir: src/main/resources/uploads
