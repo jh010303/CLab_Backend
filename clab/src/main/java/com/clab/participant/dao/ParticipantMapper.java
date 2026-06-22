@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.clab.participant.dto.ParticipantDto;
+import com.clab.participant.dto.ParticipantMeetingDto;
 import com.clab.participant.dto.ParticipantPersonaDto;
 
 @Mapper
@@ -16,6 +17,8 @@ public interface ParticipantMapper {
 	ParticipantDto findById(int id);
 
 	List<ParticipantPersonaDto> findPersonaById(int chatId);
+	
+	List<ParticipantMeetingDto> findMeetingById(int chatId);
 	
 	List<ParticipantDto> findByChatId(int chatId);
 

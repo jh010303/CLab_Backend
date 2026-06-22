@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
 import com.clab.participant.dto.ParticipantDto;
+import com.clab.participant.dto.ParticipantMeetingDto;
 import com.clab.participant.dto.ParticipantPersonaDto;
 import com.clab.participant.service.ParticipantService;
 
@@ -59,10 +60,10 @@ public class ParticipantController {
 				.body(response);
 	}
 	
-	@GetMapping("/meeting/{id}")
-	@Operation(summary = "단건 조회")
-	public ResponseEntity<ApiResponse> findMeetingById(@PathVariable("id") int id) {
-		ParticipantDto result = participantService.findById(id);
+	@GetMapping("/meeting/{chatId}")
+	@Operation(summary = "참여자+회의 분석 조회")
+	public ResponseEntity<ApiResponse> findMeetingById(@PathVariable("chatId") int chatId) {
+		List<ParticipantMeetingDto> result = participantService.findMeetingById(chatId);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity
 				.status(response.getStatus())
