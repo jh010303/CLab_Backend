@@ -2,6 +2,7 @@ package com.clab.member.service;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,9 +10,9 @@ import com.clab.common.exception.CustomException;
 import com.clab.common.exception.ErrorCode;
 import com.clab.member.dao.MemberMapper;
 import com.clab.member.dto.MemberDto;
+import com.clab.member.dto.MemberUpdateDto;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class MemberServiceImpl implements MemberService {
 			throw new CustomException(ErrorCode.MEMBER_DUPLICATED);
 		}
 		String encodedPassword = passwordEncoder.encode(dto.getPassword());
-		MemberDto member = new MemberDto(dto.getId(), dto.getEmail(), encodedPassword, dto.getUsername(), dto.getImage());
+		MemberDto member = new MemberDto(dto.getId(), dto.getEmail(), encodedPassword, dto.getUsername(), normalizePhone(dto.getPhoneNumber()), dto.getImage());
 
 		int changed = mapper.insert(member);
 		if (changed == 0) {
@@ -51,10 +52,32 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional
-	public void update(int id, MemberDto dto) {
-		String encodedPassword = passwordEncoder.encode(dto.getPassword());
-		MemberDto member = new MemberDto(dto.getId(), dto.getEmail(), encodedPassword, dto.getUsername(), dto.getImage());
-		int changed = mapper.update(id, member);
+	public void update(int id, MemberUpdateDto dto) {
+		MemberDto existingMember = mapper.findById(id);
+		String encodedPassword = existingMember.getPassword();
+		
+	    if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+	        if (dto.getOriginPassword() == null || dto.getOriginPassword().isBlank()) {
+	            throw new CustomException(ErrorCode.MEMBER_PASSWORD_REQUIRED);
+	        }
+
+	        if (!passwordEncoder.matches(dto.getOriginPassword(), existingMember.getPassword())) {
+	            throw new CustomException(ErrorCode.MEMBER_PASSWORD_MISMATCH);
+	        }
+
+	        encodedPassword = passwordEncoder.encode(dto.getPassword());
+	    }
+		
+	    MemberDto member = new MemberDto(
+	            id,
+	            dto.getEmail() != null ? dto.getEmail() : existingMember.getEmail(),
+	            encodedPassword,
+	            dto.getUsername() != null ? dto.getUsername() : existingMember.getUsername(),
+	            dto.getPhoneNumber() != null ? normalizePhone(dto.getPhoneNumber()) : existingMember.getPhoneNumber(),
+	            dto.getImage() != null ? dto.getImage() : existingMember.getImage()
+	        );
+	    
+	    int changed = mapper.update(id, member);
 		if (changed == 0) {
 			throw new CustomException(ErrorCode.MEMBER_BAD_REQUEST);
 		}
@@ -67,5 +90,9 @@ public class MemberServiceImpl implements MemberService {
 		if (changed == 0) {
 			throw new CustomException(ErrorCode.MEMBER_BAD_REQUEST);
 		}
+	}
+	
+	private String normalizePhone(String phone) {
+		return phone == null ? null : phone.replaceAll("-", "");
 	}
 }

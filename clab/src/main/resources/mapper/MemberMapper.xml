@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="email" column="email"/>
         <result property="password" column="password"/>
         <result property="username" column="username"/>
+        <result property="phoneNumber" column="phone_number"/>
         <result property="image" column="image"/>
     </resultMap>
 
@@ -20,6 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             email,
             password,
             username,
+            phone_number,
             image
         FROM member
     </select>
@@ -33,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             email,
             password,
             username,
+            phone_number,
             image
         FROM member
         WHERE id = #{id}
@@ -46,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             email,
             password,
             username,
+            phone_number,
             image
         FROM member
         WHERE email = #{email}
@@ -68,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             email,
             password,
             username,
+            phone_number,
             image
         )
         VALUES
@@ -75,6 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{email},
             #{password},
             #{username},
+            #{phoneNumber},
             #{image}
         )
 
@@ -87,6 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             email = #{dto.email},
             password = #{dto.password},
             username = #{dto.username},
+            phone_number = #{dto.phoneNumber},
             image = #{dto.image}
         WHERE id = #{id}
     </update>

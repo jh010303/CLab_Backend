@@ -65,6 +65,9 @@ public enum ErrorCode implements BaseCode {
 	MEMBER_NOT_FOUND(404,"MEM-001", "사용자를 조회할 수 없습니다."),
 	MEMBER_DUPLICATED(409, "MEM-002", "이미 존재하는 사용자입니다."),
 	MEMBER_BAD_REQUEST(400,"MEM-003", "잘못된 접근입니다. DB에 수정이 발생하지 않았습니다."),
+	MEMBER_PASSWORD_MISMATCH(400, "MEM-004", "기존 비밀번호가 일치하지 않습니다."),
+	MEMBER_PASSWORD_REQUIRED(400, "MEM-005", "비밀번호 변경을 위해 기존 비밀번호를 입력해야 합니다."),
+
 	// Member Error --- END
 	
 	// Auth Error --- BEGIN
