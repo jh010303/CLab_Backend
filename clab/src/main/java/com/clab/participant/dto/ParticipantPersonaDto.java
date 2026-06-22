@@ -11,7 +11,7 @@ public class ParticipantPersonaDto {
 	private Integer id;
 	// 대화 참여자
 	private Integer chatId;
-	private String chatName;
+	private String name;
 	private Integer count;
 	private Integer averageReplyTime;
 	private Integer chatLength;
