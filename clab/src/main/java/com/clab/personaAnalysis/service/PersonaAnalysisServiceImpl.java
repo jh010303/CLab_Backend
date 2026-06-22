@@ -37,7 +37,7 @@ public class PersonaAnalysisServiceImpl implements PersonaAnalysisService {
 	}
 
 	@Override
-	public List<PersonaAnalysisDto> findByParticipantId(int participantId) {
+	public PersonaAnalysisDto findByParticipantId(int participantId) {
 		return mapper.findByParticipantId(participantId);
 	}
 

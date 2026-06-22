@@ -15,7 +15,7 @@ public interface PersonaAnalysisMapper {
 
 	List<PersonaAnalysisDto> findByChatId(int chatId);
 
-	List<PersonaAnalysisDto> findByParticipantId(int participantId);
+	PersonaAnalysisDto findByParticipantId(int participantId);
 
 	int insert(PersonaAnalysisDto dto);
 

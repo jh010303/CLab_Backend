@@ -56,7 +56,7 @@ public class PersonaAnalysisController {
 	@GetMapping("/participant/{participantId}")
 	@Operation(summary = "참여자 id로 조회")
 	public ResponseEntity<ApiResponse> findByParticipantId(@PathVariable("participantId") int participantId) {
-		List<PersonaAnalysisDto> result = personaAnalysisService.findByParticipantId(participantId);
+		PersonaAnalysisDto result = personaAnalysisService.findByParticipantId(participantId);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
