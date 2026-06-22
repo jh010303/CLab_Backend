@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <id property="id" column="participant_id"/>
         <!-- 대화 참여자 -->
         <result property="chatId" column="chat_id"/>
-        <result property="chatName" column="chat_name"/>
+        <result property="name" column="name"/>
         <result property="count" column="count"/>
         <result property="averageReplyTime" column="average_reply_time"/>
         <result property="chatLength" column="chat_length"/>
@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <id property="id" column="participant_id"/>
         <!-- 대화 참여자 -->
         <result property="chatId" column="chat_id"/>
-        <result property="chatName" column="chat_name"/>
+        <result property="name" column="name"/>
         <result property="count" column="count"/>
         <result property="averageReplyTime" column="average_reply_time"/>
         <result property="chatLength" column="chat_length"/>
