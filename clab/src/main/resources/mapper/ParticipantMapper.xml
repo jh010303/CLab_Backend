@@ -128,7 +128,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			mp.assigned_task
         FROM participant p
         JOIN meeting_participation mp ON p.id = mp.participant_id
-        JOIN meeting_analysis ma ON mp.meeting_analysis_id = ma.id
         WHERE p.chat_id = #{chatId}
     </select>
 
