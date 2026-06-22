@@ -8,6 +8,7 @@ import com.clab.common.exception.CustomException;
 import com.clab.common.exception.ErrorCode;
 import com.clab.participant.dao.ParticipantMapper;
 import com.clab.participant.dto.ParticipantDto;
+import com.clab.participant.dto.ParticipantPersonaDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +31,16 @@ public class ParticipantServiceImpl implements ParticipantService {
 		return dto;
 	}
 
+
+	@Override
+	public List<ParticipantPersonaDto> findPersonaById(int chatId) {
+		List<ParticipantPersonaDto> dto = mapper.findPersonaById(chatId);
+		if(dto.isEmpty()) {
+			throw new CustomException(ErrorCode.PARTICIPANT_NOT_FOUND);
+		}
+		return dto;
+	}
+	
 	@Override
 	public List<ParticipantDto> findByChatId(int chatId) {
 		return mapper.findByChatId(chatId);

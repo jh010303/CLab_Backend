@@ -3,8 +3,10 @@ package com.clab.participant.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.clab.participant.dto.ParticipantDto;
+import com.clab.participant.dto.ParticipantPersonaDto;
 
 @Mapper
 public interface ParticipantMapper {
@@ -13,6 +15,8 @@ public interface ParticipantMapper {
 
 	ParticipantDto findById(int id);
 
+	List<ParticipantPersonaDto> findPersonaById(int chatId);
+	
 	List<ParticipantDto> findByChatId(int chatId);
 
 	int insert(ParticipantDto dto);
