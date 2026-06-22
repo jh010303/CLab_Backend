@@ -3,6 +3,7 @@ package com.clab.participant.service;
 import java.util.List;
 
 import com.clab.participant.dto.ParticipantDto;
+import com.clab.participant.dto.ParticipantPersonaDto;
 
 public interface ParticipantService {
 
@@ -10,6 +11,8 @@ public interface ParticipantService {
 
 	ParticipantDto findById(int id);
 
+	List<ParticipantPersonaDto> findPersonaById(int chatId);
+	
 	List<ParticipantDto> findByChatId(int chatId);
 
 	int insert(ParticipantDto dto);
@@ -17,5 +20,4 @@ public interface ParticipantService {
 	void delete(int id);
 
 	void deleteByChatId(int chatId);
-
 }

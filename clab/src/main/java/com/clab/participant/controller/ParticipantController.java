@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
 import com.clab.participant.dto.ParticipantDto;
+import com.clab.participant.dto.ParticipantPersonaDto;
 import com.clab.participant.service.ParticipantService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,6 +49,26 @@ public class ParticipantController {
 				.body(response);
 	}
 	
+	@GetMapping("/persona/{chatId}")
+	@Operation(summary = "참여자+페르소나 분석 조회")
+	public ResponseEntity<ApiResponse> findPersonaById(@PathVariable("chatId") int chatId) {
+		List<ParticipantPersonaDto> result = participantService.findPersonaById(chatId);
+		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
+		return ResponseEntity
+				.status(response.getStatus())
+				.body(response);
+	}
+	
+	@GetMapping("/meeting/{id}")
+	@Operation(summary = "단건 조회")
+	public ResponseEntity<ApiResponse> findMeetingById(@PathVariable("id") int id) {
+		ParticipantDto result = participantService.findById(id);
+		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
+		return ResponseEntity
+				.status(response.getStatus())
+				.body(response);
+	}
+	
 	@GetMapping("/chat/{chatId}")
 	@Operation(summary = "대화id로 조회")
 	public ResponseEntity<ApiResponse> findByChatId(@PathVariable("chatId") int chatId) {
@@ -57,6 +78,7 @@ public class ParticipantController {
 				.status(response.getStatus())
 				.body(response);
 	}
+	
 	@PostMapping
 	@Operation(summary = "등록")
 	public ResponseEntity<ApiResponse> insert(@RequestBody ParticipantDto dto) {
