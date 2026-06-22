@@ -1,6 +1,7 @@
 package com.clab.member.controller;
 
 import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
 import com.clab.common.security.CustomUserDetails;
 import com.clab.member.dto.MemberDto;
+import com.clab.member.dto.MemberUpdateDto;
 import com.clab.member.service.MemberService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,7 +67,7 @@ public class MemberController {
 
 	@PatchMapping("/me")
 	@Operation(summary = "사용자 정보 수정")
-	public ResponseEntity<ApiResponse> update(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody MemberDto dto) {
+	public ResponseEntity<ApiResponse> update(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody MemberUpdateDto dto) {
 		int id = userDetails.getMember().getId();
 		memberService.update(id, dto);
 		ApiResponse response = new ApiResponse(SuccessCode.UPDATE_SUCCESS, "사용자 정보가 수정 되었습니다.");
