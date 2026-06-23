@@ -23,6 +23,10 @@ import com.clab.member.dto.MemberUpdateDto;
 import com.clab.member.service.MemberService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Encoding;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -67,11 +71,17 @@ public class MemberController {
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 
-	@PatchMapping("/me")
+	@PatchMapping(value = "/me", consumes = "multipart/form-data")
 	@Operation(summary = "사용자 정보 수정")
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "multipart/form-data",
+		encoding = {
+			@Encoding(name = "dto", contentType = "application/json"),
+			@Encoding(name = "image", contentType = "image/*")
+		}))
 	public ResponseEntity<ApiResponse> update(
 			@AuthenticationPrincipal CustomUserDetails userDetails,
-			@RequestPart("dto") MemberUpdateDto dto,
+			@RequestPart(value = "dto", required = false) MemberUpdateDto dto,
+			@Parameter(description = "프로필 이미지", schema = @Schema(type = "string", format = "binary"))
 			@RequestPart(value = "image", required = false) MultipartFile image) {
 		int id = userDetails.getMember().getId();
 		memberService.update(id, dto, image);

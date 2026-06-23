@@ -58,19 +58,22 @@ public class MemberServiceImpl implements MemberService {
 	public void update(int id, MemberUpdateDto dto, MultipartFile image) {
 		MemberDto existingMember = mapper.findById(id);
 		String encodedPassword = existingMember.getPassword();
-
-		if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-			if (dto.getOriginPassword() == null || dto.getOriginPassword().isBlank()) {
-				throw new CustomException(ErrorCode.MEMBER_PASSWORD_REQUIRED);
+		
+		if(dto!=null) {
+	
+			if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+				if (dto.getOriginPassword() == null || dto.getOriginPassword().isBlank()) {
+					throw new CustomException(ErrorCode.MEMBER_PASSWORD_REQUIRED);
+				}
+	
+				if (!passwordEncoder.matches(dto.getOriginPassword(), existingMember.getPassword())) {
+					throw new CustomException(ErrorCode.MEMBER_PASSWORD_MISMATCH);
+				}
+	
+				encodedPassword = passwordEncoder.encode(dto.getPassword());
 			}
-
-			if (!passwordEncoder.matches(dto.getOriginPassword(), existingMember.getPassword())) {
-				throw new CustomException(ErrorCode.MEMBER_PASSWORD_MISMATCH);
-			}
-
-			encodedPassword = passwordEncoder.encode(dto.getPassword());
 		}
-
+		
 		String imageUrl = existingMember.getImage();
 		if (image != null && !image.isEmpty()) {
 			if (imageUrl != null && !imageUrl.isBlank()) {
@@ -81,10 +84,10 @@ public class MemberServiceImpl implements MemberService {
 
 		MemberDto member = new MemberDto(
 				id,
-				dto.getEmail() != null ? dto.getEmail() : existingMember.getEmail(),
+				dto != null && dto.getEmail() != null ? dto.getEmail() : existingMember.getEmail(),
 				encodedPassword,
-				dto.getUsername() != null ? dto.getUsername() : existingMember.getUsername(),
-				dto.getPhoneNumber() != null ? normalizePhone(dto.getPhoneNumber()) : existingMember.getPhoneNumber(),
+				dto != null && dto.getUsername() != null ? dto.getUsername() : existingMember.getUsername(),
+				dto != null && dto.getPhoneNumber() != null ? normalizePhone(dto.getPhoneNumber()) : existingMember.getPhoneNumber(),
 				imageUrl
 		);
 
