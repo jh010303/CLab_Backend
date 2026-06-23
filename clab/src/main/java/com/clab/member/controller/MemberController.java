@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
@@ -21,6 +23,10 @@ import com.clab.member.dto.MemberUpdateDto;
 import com.clab.member.service.MemberService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Encoding;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -39,7 +45,7 @@ public class MemberController {
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
-	
+
 	@GetMapping("/{id}")
 	@Operation(summary = "단일 사용자 조회")
 	public ResponseEntity<ApiResponse> findById(@PathVariable int id) {
@@ -65,11 +71,20 @@ public class MemberController {
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 
-	@PatchMapping("/me")
+	@PatchMapping(value = "/me", consumes = "multipart/form-data")
 	@Operation(summary = "사용자 정보 수정")
-	public ResponseEntity<ApiResponse> update(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody MemberUpdateDto dto) {
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "multipart/form-data",
+		encoding = {
+			@Encoding(name = "dto", contentType = "application/json"),
+			@Encoding(name = "image", contentType = "image/*")
+		}))
+	public ResponseEntity<ApiResponse> update(
+			@AuthenticationPrincipal CustomUserDetails userDetails,
+			@RequestPart(value = "dto", required = false) MemberUpdateDto dto,
+			@Parameter(description = "프로필 이미지", schema = @Schema(type = "string", format = "binary"))
+			@RequestPart(value = "image", required = false) MultipartFile image) {
 		int id = userDetails.getMember().getId();
-		memberService.update(id, dto);
+		memberService.update(id, dto, image);
 		ApiResponse response = new ApiResponse(SuccessCode.UPDATE_SUCCESS, "사용자 정보가 수정 되었습니다.");
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
