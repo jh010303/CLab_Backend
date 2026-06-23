@@ -90,11 +90,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="update">
         UPDATE member
         SET
-            email = #{dto.email},
-            password = #{dto.password},
             username = #{dto.username},
-            phone_number = #{dto.phoneNumber},
-            image = #{dto.image}
+            phone_number = #{dto.phoneNumber}
+        WHERE id = #{id}
+    </update>
+    
+     <update id="updatePassword">
+        UPDATE member
+        SET
+            password = #{encodedPassword}
+        WHERE id = #{id}
+    </update>
+    
+     <update id="updateImage">
+        UPDATE member
+        SET
+            image = #{imageUrl}
         WHERE id = #{id}
     </update>
 

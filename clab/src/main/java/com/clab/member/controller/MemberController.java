@@ -19,6 +19,7 @@ import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
 import com.clab.common.security.CustomUserDetails;
 import com.clab.member.dto.MemberDto;
+import com.clab.member.dto.MemberUpdatePasswordDto;
 import com.clab.member.dto.MemberUpdateDto;
 import com.clab.member.service.MemberService;
 
@@ -71,22 +72,44 @@ public class MemberController {
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 
-	@PatchMapping(value = "/me", consumes = "multipart/form-data")
-	@Operation(summary = "사용자 정보 수정")
+	@PatchMapping(value = "/me/image", consumes = "multipart/form-data")
+	@Operation(summary = "사용자 이미지 수정")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "multipart/form-data",
 		encoding = {
-			@Encoding(name = "dto", contentType = "application/json"),
 			@Encoding(name = "image", contentType = "image/*")
 		}))
-	public ResponseEntity<ApiResponse> update(
+	public ResponseEntity<ApiResponse> updateImage(
 			@AuthenticationPrincipal CustomUserDetails userDetails,
-			@RequestPart(value = "dto", required = false) MemberUpdateDto dto,
 			@Parameter(description = "프로필 이미지", schema = @Schema(type = "string", format = "binary"))
 			@RequestPart(value = "image", required = false) MultipartFile image) {
 		int id = userDetails.getMember().getId();
-		memberService.update(id, dto, image);
+		memberService.updateImage(id, image);
 		ApiResponse response = new ApiResponse(SuccessCode.UPDATE_SUCCESS, "사용자 정보가 수정 되었습니다.");
 		return ResponseEntity.status(response.getStatus()).body(response);
+	}
+	
+	@PatchMapping("/me/password")
+	@Operation(summary = "사용자 비밀번호 수정")
+	public ResponseEntity<ApiResponse> updatePassword(
+			@AuthenticationPrincipal CustomUserDetails userDetails,
+			@RequestBody MemberUpdatePasswordDto dto
+			){
+		int id = userDetails.getMember().getId();
+		memberService.updatePassword(id, dto);
+		ApiResponse response = new ApiResponse(SuccessCode.UPDATE_SUCCESS, "사용자 정보가 수정 되었습니다.");
+		return ResponseEntity.status(response.getStatus()).body(response);
+	}
+	
+	@PatchMapping("/me")
+	@Operation(summary = "사용자 정보 수정")
+	public ResponseEntity<ApiResponse> update(
+			@AuthenticationPrincipal CustomUserDetails userDetails,
+			@RequestBody MemberUpdateDto dto){
+		int id = userDetails.getMember().getId();
+		memberService.update(id, dto);
+		ApiResponse response = new ApiResponse(SuccessCode.UPDATE_SUCCESS, "사용자 정보가 수정 되었습니다.");
+		return ResponseEntity.status(response.getStatus()).body(response);
+		
 	}
 
 	@DeleteMapping("/me")
