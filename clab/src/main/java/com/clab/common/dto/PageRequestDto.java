@@ -6,7 +6,7 @@ import lombok.Getter;
 public class PageRequestDto {
 	private int page = 1;
     private final int size = 10; 
-    private String sortBy = "created_at";
+    private String sortBy = "createdAt";
     private String sortOrder = "DESC";
 
     public void setPage(int page) {
@@ -14,7 +14,7 @@ public class PageRequestDto {
     }
 
     public void setSortBy(String sortBy) {
-        if ("title".equals(sortBy) || "created_at".equals(sortBy)) {
+        if ("title".equals(sortBy) || "createdAt".equals(sortBy)) {
             this.sortBy = sortBy;
         }
     }
