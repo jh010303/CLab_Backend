@@ -14,6 +14,7 @@ import com.clab.common.s3.S3Service;
 import com.clab.member.dao.MemberMapper;
 import com.clab.member.dto.MemberDto;
 import com.clab.member.dto.MemberUpdateDto;
+import com.clab.member.dto.MemberUpdatePasswordDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -53,45 +54,63 @@ public class MemberServiceImpl implements MemberService {
 			throw new CustomException(ErrorCode.MEMBER_BAD_REQUEST);
 		}
 	}
+	
 
 	@Override
-	@Transactional
-	public void update(int id, MemberUpdateDto dto, MultipartFile image) {
+	public void updateImage(int id, MultipartFile image) {
 		MemberDto existingMember = mapper.findById(id);
-		String encodedPassword = existingMember.getPassword();
+		String imageUrl = existingMember.getImage();
 		
-		if(dto!=null) {
-	
-			if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-				if (dto.getOriginPassword() == null || dto.getOriginPassword().isBlank()) {
-					throw new CustomException(ErrorCode.MEMBER_PASSWORD_REQUIRED);
-				}
-	
-				if (!passwordEncoder.matches(dto.getOriginPassword(), existingMember.getPassword())) {
-					throw new CustomException(ErrorCode.MEMBER_PASSWORD_MISMATCH);
-				}
-	
-				encodedPassword = passwordEncoder.encode(dto.getPassword());
-			}
+		if (imageUrl != null && !imageUrl.isBlank()) {
+			s3Service.delete(imageUrl);
 		}
 		
-		String imageUrl = existingMember.getImage();
-		if (image != null && !image.isEmpty()) {
-			if (imageUrl != null && !imageUrl.isBlank()) {
-				s3Service.delete(imageUrl);
-			}
-			String originalFileName = image.getOriginalFilename();
-			String saveFileName = UUID.randomUUID() + "_" + originalFileName;
-			imageUrl = s3Service.upload("member/images", image, saveFileName);
+		if(image==null) {
+			return;
+		}
+		
+		String originalFileName = image.getOriginalFilename();
+		String saveFileName = UUID.randomUUID() + "_" + originalFileName;
+		
+		imageUrl = s3Service.upload("member/images", image, saveFileName);
+
+		int changed = mapper.updateImage(id,imageUrl);
+		if (changed == 0) {
+			throw new CustomException(ErrorCode.MEMBER_BAD_REQUEST);
+		}
+	}
+
+	@Override
+	public void updatePassword(int id, MemberUpdatePasswordDto dto) {
+		MemberDto existingMember = mapper.findById(id);
+		
+		if (dto.getOriginPassword() == null || dto.getOriginPassword().isBlank()) {
+			throw new CustomException(ErrorCode.MEMBER_PASSWORD_REQUIRED);
 		}
 
+		if (!passwordEncoder.matches(dto.getOriginPassword(), existingMember.getPassword())) {
+			throw new CustomException(ErrorCode.MEMBER_PASSWORD_MISMATCH);
+		}
+
+		String encodedPassword = passwordEncoder.encode(dto.getPassword());
+	
+		int changed = mapper.updatePassword(id, encodedPassword);
+		if (changed == 0) {
+			throw new CustomException(ErrorCode.MEMBER_BAD_REQUEST);
+		}
+	}
+
+	@Override
+	public void update(int id, MemberUpdateDto dto) {
+		MemberDto existingMember = mapper.findById(id);
+		
 		MemberDto member = new MemberDto(
-				id,
-				dto != null && dto.getEmail() != null ? dto.getEmail() : existingMember.getEmail(),
-				encodedPassword,
-				dto != null && dto.getUsername() != null ? dto.getUsername() : existingMember.getUsername(),
-				dto != null && dto.getPhoneNumber() != null ? normalizePhone(dto.getPhoneNumber()) : existingMember.getPhoneNumber(),
-				imageUrl
+				null,
+				null,
+				null,
+				dto.getUsername(),
+				normalizePhone(dto.getPhoneNumber()),
+				null
 		);
 
 		int changed = mapper.update(id, member);

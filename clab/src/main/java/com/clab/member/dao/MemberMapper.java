@@ -20,9 +20,12 @@ public interface MemberMapper {
 	int insert(MemberDto dto);
 
 	int update(int id, MemberDto dto);
+	
+	int updatePassword(int id, String encodedPassword);
+
+	int updateImage(int id, String imageUrl);
 
 	void updateRefreshToken(int id, String refreshToken);
 	
 	int delete(int id);
-
 }
