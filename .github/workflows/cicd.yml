@@ -33,14 +33,10 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Grant execute permission for gradlew
+      - name: Build with Maven
         working-directory: ./clab
-        run: chmod +x ./gradlew
-
-      - name: Build with Gradle
-        working-directory: ./clab
-        run: ./gradlew build -x test
-
+        run: mvn clean package -DskipTests
+        
       - name: Build the Docker image
         working-directory: ./clab
         run: docker build . --file Dockerfile --tag ${{ env.DOCKER_IMAGE_NAME }}:latest
