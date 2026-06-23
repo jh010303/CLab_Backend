@@ -54,7 +54,7 @@ public class ParticipantController {
 	@GetMapping("/persona/{chatId}")
 	@Operation(summary = "참여자+페르소나 분석 조회")
 	public ResponseEntity<ApiResponse> findPersonaById(@PathVariable("chatId") int chatId,
-			SortRequestDto sortRequest) {
+			@RequestBody SortRequestDto sortRequest) {
 		List<ParticipantPersonaDto> result = participantService.findPersonaById(chatId, sortRequest);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity
@@ -65,7 +65,7 @@ public class ParticipantController {
 	@GetMapping("/meeting/{chatId}")
 	@Operation(summary = "참여자+회의 분석 조회")
 	public ResponseEntity<ApiResponse> findMeetingById(@PathVariable("chatId") int chatId,
-			SortRequestDto sortRequest) {
+			@RequestBody SortRequestDto sortRequest) {
 		List<ParticipantMeetingDto> result = participantService.findMeetingById(chatId,sortRequest);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity
