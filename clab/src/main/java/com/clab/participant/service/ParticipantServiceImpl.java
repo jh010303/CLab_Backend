@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.clab.common.dto.SortRequestDto;
 import com.clab.common.exception.CustomException;
 import com.clab.common.exception.ErrorCode;
 import com.clab.participant.dao.ParticipantMapper;
@@ -34,8 +35,8 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 
 	@Override
-	public List<ParticipantPersonaDto> findPersonaById(int chatId) {
-		List<ParticipantPersonaDto> dto = mapper.findPersonaById(chatId);
+	public List<ParticipantPersonaDto> findPersonaById(int chatId, SortRequestDto sortRequest) {
+		List<ParticipantPersonaDto> dto = mapper.findPersonaById(chatId, sortRequest);
 		if(dto.isEmpty()) {
 			throw new CustomException(ErrorCode.PARTICIPANT_NOT_FOUND);
 		}
@@ -43,8 +44,8 @@ public class ParticipantServiceImpl implements ParticipantService {
 	}
 	
 	@Override
-	public List<ParticipantMeetingDto> findMeetingById(int chatId) {
-		List<ParticipantMeetingDto> dto = mapper.findMeetingById(chatId);
+	public List<ParticipantMeetingDto> findMeetingById(int chatId, SortRequestDto sortRequest) {
+		List<ParticipantMeetingDto> dto = mapper.findMeetingById(chatId, sortRequest);
 		if(dto.isEmpty()) {
 			throw new CustomException(ErrorCode.PARTICIPANT_NOT_FOUND);
 		}

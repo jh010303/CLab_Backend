@@ -16,6 +16,7 @@ import com.clab.chatFile.service.ChatFileService;
 import com.clab.chatFile.service.util.ChatParserUtil;
 import com.clab.common.ai.AiUtil;
 import com.clab.common.ai.AiUtil.ParticipantAnalysis;
+import com.clab.common.dto.PageRequestDto;
 import com.clab.common.exception.CustomException;
 import com.clab.common.exception.ErrorCode;
 import com.clab.content.dto.ContentDto;
@@ -57,8 +58,22 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public List<ChatDto> findAllByUserId(int userId) {
-		return chatMapper.findAllByUserId(userId);
+	public Map<String, Object> findAllByUserId(int userId, PageRequestDto pageRequest) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("userId", userId);
+	    params.put("limit", pageRequest.getSize());
+	    params.put("offset", pageRequest.getOffset());
+	    params.put("sortBy", pageRequest.getSortBy());
+	    params.put("sortOrder", pageRequest.getSortOrder());
+
+	    List<ChatDto> chatList = chatMapper.findAllByUserId(params);
+	    int totalCount = chatMapper.countByUserId(userId);
+
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("chats", chatList);
+	    result.put("totalCount", totalCount);
+	    
+	    return result;
 	}
 
 	@Override

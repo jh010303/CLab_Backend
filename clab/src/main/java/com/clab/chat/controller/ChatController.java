@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.clab.chat.dto.ChatDto;
 import com.clab.chat.service.ChatService;
+import com.clab.common.dto.PageRequestDto;
 import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
 import com.clab.common.security.CustomUserDetails;
@@ -50,9 +51,10 @@ public class ChatController {
 	
 	@GetMapping("/me")
 	@Operation(summary = "내 채팅 목록 조회")
-	public ResponseEntity<ApiResponse> findAllByUserId(@AuthenticationPrincipal CustomUserDetails userDetails){
+	public ResponseEntity<ApiResponse> findAllByUserId(@AuthenticationPrincipal CustomUserDetails userDetails,
+			PageRequestDto pageRequest){
 		int userId = userDetails.getMember().getId();
-		List<ChatDto> result = chatService.findAllByUserId(userId);
+		Map<String, Object> result = chatService.findAllByUserId(userId, pageRequest);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity
 				.status(response.getStatus())

@@ -1,6 +1,7 @@
 package com.clab.chat.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +13,9 @@ public interface ChatMapper {
 
 	List<ChatDto> findAll();
 	
-	List<ChatDto> findAllByUserId(int userId);
+	List<ChatDto> findAllByUserId(Map<String, Object> params);
+
+	int countByUserId(int userId);
 
 	ChatDto findById(int id);
 
@@ -21,5 +24,4 @@ public interface ChatMapper {
 	int update(@Param("id") int id, @Param("dto") ChatDto dto);
 
 	int delete(int id);
-
 }
