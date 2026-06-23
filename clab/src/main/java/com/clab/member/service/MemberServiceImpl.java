@@ -65,16 +65,17 @@ public class MemberServiceImpl implements MemberService {
 			s3Service.delete(imageUrl);
 		}
 		
-		if(image==null) {
-			return;
+		String newImageUrl = null;
+		
+		if(null != image && !image.isEmpty()) {
+			String originalFileName = image.getOriginalFilename();
+			String saveFileName = UUID.randomUUID() + "_" + originalFileName;
+
+			newImageUrl = s3Service.upload("member/images", image, saveFileName);			
 		}
 		
-		String originalFileName = image.getOriginalFilename();
-		String saveFileName = UUID.randomUUID() + "_" + originalFileName;
+		int changed = mapper.updateImage(id, newImageUrl);
 		
-		imageUrl = s3Service.upload("member/images", image, saveFileName);
-
-		int changed = mapper.updateImage(id,imageUrl);
 		if (changed == 0) {
 			throw new CustomException(ErrorCode.MEMBER_BAD_REQUEST);
 		}
