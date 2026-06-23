@@ -29,7 +29,7 @@ public class ChatFileServiceImpl implements ChatFileService {
 		String originalFileName = file.getOriginalFilename();
 		String saveFileName = UUID.randomUUID() + "_" + originalFileName;
 
-		String source = s3Service.upload("chat/files", file);
+		String source = s3Service.upload("chat/files", file, saveFileName);
 
 		log.info("S3 파일 업로드 성공: {}", source);
 		ChatFileDto chatFile = new ChatFileDto(null, originalFileName, saveFileName, source, (int) file.getSize(), null);

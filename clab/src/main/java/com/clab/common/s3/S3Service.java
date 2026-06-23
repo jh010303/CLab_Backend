@@ -1,7 +1,6 @@
 package com.clab.common.s3;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,8 +29,8 @@ public class S3Service {
 	@Value("${cloud.aws.region.static}")
 	private String region;
 
-	public String upload(String folder, MultipartFile file) {
-		String key = folder + "/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
+	public String upload(String folder, MultipartFile file, String saveFileName) {
+		String key = folder + "/" + saveFileName;
 
 		try {
 			PutObjectRequest request = PutObjectRequest.builder()

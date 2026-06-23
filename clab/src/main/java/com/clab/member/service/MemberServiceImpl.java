@@ -1,6 +1,7 @@
 package com.clab.member.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -79,7 +80,9 @@ public class MemberServiceImpl implements MemberService {
 			if (imageUrl != null && !imageUrl.isBlank()) {
 				s3Service.delete(imageUrl);
 			}
-			imageUrl = s3Service.upload("member/images", image);
+			String originalFileName = image.getOriginalFilename();
+			String saveFileName = UUID.randomUUID() + "_" + originalFileName;
+			imageUrl = s3Service.upload("member/images", image, saveFileName);
 		}
 
 		MemberDto member = new MemberDto(
