@@ -1,5 +1,7 @@
 package com.clab.member.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,4 +14,6 @@ public class MemberDto {
 	private String username;
 	private String phoneNumber;
 	private String image;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }

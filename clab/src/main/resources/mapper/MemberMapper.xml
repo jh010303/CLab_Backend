@@ -12,6 +12,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="username" column="username"/>
         <result property="phoneNumber" column="phone_number"/>
         <result property="image" column="image"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        
     </resultMap>
 
     <!-- 전체 조회 -->
@@ -22,7 +25,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             password,
             username,
             phone_number,
-            image
+            image,
+            created_at,
+            updated_at
         FROM member
     </select>
 
@@ -36,7 +41,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             password,
             username,
             phone_number,
-            image
+            image,
+            created_at,
+            updated_at
         FROM member
         WHERE id = #{id}
     </select>
@@ -50,7 +57,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             password,
             username,
             phone_number,
-            image
+            image,
+            created_at,
+            updated_at
         FROM member
         WHERE email = #{email}
     </select>
@@ -73,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             password,
             username,
             phone_number,
-            image
+            created_at
         )
         VALUES
         (
@@ -81,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{password},
             #{username},
             #{phoneNumber},
-            #{image}
+            now()
         )
 
     </insert>
@@ -91,21 +100,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         UPDATE member
         SET
             username = #{dto.username},
-            phone_number = #{dto.phoneNumber}
+            phone_number = #{dto.phoneNumber},
+            updated_at = now()
         WHERE id = #{id}
     </update>
     
      <update id="updatePassword">
         UPDATE member
         SET
-            password = #{encodedPassword}
+            password = #{encodedPassword},
+            updated_at = now()
         WHERE id = #{id}
     </update>
     
      <update id="updateImage">
         UPDATE member
         SET
-            image = #{imageUrl}
+            image = #{imageUrl},
+            updated_at = now()
         WHERE id = #{id}
     </update>
 

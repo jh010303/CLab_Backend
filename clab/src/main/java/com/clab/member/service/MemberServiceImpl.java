@@ -1,5 +1,6 @@
 package com.clab.member.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,7 +48,8 @@ public class MemberServiceImpl implements MemberService {
 			throw new CustomException(ErrorCode.MEMBER_DUPLICATED);
 		}
 		String encodedPassword = passwordEncoder.encode(dto.getPassword());
-		MemberDto member = new MemberDto(dto.getId(), dto.getEmail(), encodedPassword, dto.getUsername(), normalizePhone(dto.getPhoneNumber()), dto.getImage());
+		MemberDto member = new MemberDto(dto.getId(), dto.getEmail(), encodedPassword, 
+				dto.getUsername(), normalizePhone(dto.getPhoneNumber()), dto.getImage(),null,null);
 
 		int changed = mapper.insert(member);
 		if (changed == 0) {
@@ -55,7 +57,6 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 	
-
 	@Override
 	public void updateImage(int id, MultipartFile image) {
 		MemberDto existingMember = mapper.findById(id);
@@ -109,8 +110,10 @@ public class MemberServiceImpl implements MemberService {
 				null,
 				null,
 				null,
-				dto.getUsername(),
-				normalizePhone(dto.getPhoneNumber()),
+				dto.getUsername() == null ? existingMember.getUsername():dto.getUsername(),
+				dto.getPhoneNumber() == null ?  existingMember.getPhoneNumber():normalizePhone(dto.getPhoneNumber()),
+				null,
+				null,
 				null
 		);
 
