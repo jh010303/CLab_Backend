@@ -34,12 +34,15 @@ jobs:
           distribution: 'temurin'
 
       - name: Grant execute permission for gradlew
+        working-directory: ./clab
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
+        working-directory: ./clab
         run: ./gradlew build -x test
 
       - name: Build the Docker image
+        working-directory: ./clab
         run: docker build . --file Dockerfile --tag ${{ env.DOCKER_IMAGE_NAME }}:latest
 
       - name: Login to Docker Hub using Access Token
