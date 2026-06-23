@@ -52,7 +52,7 @@ public class ChatController {
 	@GetMapping("/me")
 	@Operation(summary = "내 채팅 목록 조회")
 	public ResponseEntity<ApiResponse> findAllByUserId(@AuthenticationPrincipal CustomUserDetails userDetails,
-			@RequestBody PageRequestDto pageRequest){
+			PageRequestDto pageRequest){
 		int userId = userDetails.getMember().getId();
 		Map<String, Object> result = chatService.findAllByUserId(userId, pageRequest);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
