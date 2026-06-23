@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="actionItems" column="action_items"/>
     </resultMap>
 
-    <!-- 전체 조회 -->
+    <!-- chatId로 조회 -->
     <select id="findByChatId" resultMap="meetingAnalysisMap">
         SELECT
             id,
@@ -30,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             meeting_summary,
             action_items
         FROM meeting_analysis
+        WHERE chat_id = #{chatId}
     </select>
 
     <!-- 등록 -->

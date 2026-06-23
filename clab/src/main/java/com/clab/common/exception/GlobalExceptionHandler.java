@@ -93,17 +93,19 @@ public class GlobalExceptionHandler {
 //    }
 
 	@ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse> handleException(
-            Exception exception) {
+	public ResponseEntity<ApiResponse> handleException(
+	        Exception exception) {
 
-        log.error("Unhandled Exception", exception);
+	    exception.printStackTrace();
 
-        return ResponseEntity
-                .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus())
-                .body(new ApiResponse(
-                        ErrorCode.INTERNAL_SERVER_ERROR,
-                        null
-                ));
-    }
+	    log.error("Unhandled Exception", exception);
+
+	    return ResponseEntity
+	            .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus())
+	            .body(new ApiResponse(
+	                    ErrorCode.INTERNAL_SERVER_ERROR,
+	                    null
+	            ));
+	}
 
 }
