@@ -30,21 +30,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM chat
     </select>
     
-        <select id="findAllByUserId" 
-		        parameterType="int"
-        		resultMap="chatMap">
-        SELECT
-        	id,
-            user_id,
-            file_id,
-            created_at,
-            updated_at,
-            title,
-            content,
-            category
-        FROM chat
-        WHERE user_id = #{userId}
-    </select>
+	<select id="findAllByUserId" parameterType="map" resultMap="chatMap">
+	    SELECT
+	        id,
+	        user_id,
+	        file_id,
+	        created_at,
+	        updated_at,
+	        title,
+	        content,
+	        category
+	    FROM chat
+	    WHERE user_id = #{userId}
+	    ORDER BY
+	    <choose>
+	        <when test="sortBy == 'title'">title</when>
+	        <when test="sortBy == 'createdAt'">created_at</when>
+	        <otherwise>created_at</otherwise>
+	    </choose>
+	    <if test="sortOrder == 'ASC'">ASC</if>
+	    <if test="sortOrder != 'ASC'">DESC</if>
+	    LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="countByUserId" parameterType="int" resultType="int">
+	    SELECT COUNT(id)
+	    FROM chat
+	    WHERE user_id = #{userId}
+	</select>
 
     <!-- 단건 조회 -->
     <select id="findById"

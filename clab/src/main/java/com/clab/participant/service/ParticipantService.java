@@ -2,6 +2,7 @@ package com.clab.participant.service;
 
 import java.util.List;
 
+import com.clab.common.dto.SortRequestDto;
 import com.clab.participant.dto.ParticipantDto;
 import com.clab.participant.dto.ParticipantMeetingDto;
 import com.clab.participant.dto.ParticipantPersonaDto;
@@ -12,9 +13,9 @@ public interface ParticipantService {
 
 	ParticipantDto findById(int id);
 
-	List<ParticipantPersonaDto> findPersonaById(int chatId);
+	List<ParticipantPersonaDto> findPersonaById(int chatId, SortRequestDto sortRequest);
 	
-	List<ParticipantMeetingDto> findMeetingById(int chatId);
+	List<ParticipantMeetingDto> findMeetingById(int chatId, SortRequestDto sortRequest);
 	
 	List<ParticipantDto> findByChatId(int chatId);
 

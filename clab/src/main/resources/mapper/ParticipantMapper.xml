@@ -22,13 +22,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="count" column="count"/>
         <result property="averageReplyTime" column="average_reply_time"/>
         <result property="chatLength" column="chat_length"/>
-        
+
         <!-- 페르소나 분석 -->
         <result property="personaAnalysisId" column="persona_analysis_id"/>
         <result property="analysisSummary" column="analysis_summary"/>
         <result property="speechStyle" column="speech_style"/>
         <result property="tetoScore" column="teto_score"/>
-        
+
         <!-- 인물상 -->
         <result property="personaId" column="persona_id"/>
         <result property="personaName" column="persona_name"/>
@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="count" column="count"/>
         <result property="averageReplyTime" column="average_reply_time"/>
         <result property="chatLength" column="chat_length"/>
-        
+
         <!-- 회의 참여 -->
         <result property="meetingParticipationId" column="meeting_participation_id"/>
         <result property="meaningfulUtteranceCount" column="meaningful_utterance_count"/>
@@ -82,23 +82,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE id = #{id}
     </select>
 
-	<select id="findPersonaById"
-    		parameterType="int"
-    		resultMap="participantPersonaMap">
-		SELECT 
+    <select id="findPersonaById" resultMap="participantPersonaMap">
+        SELECT
             p.id AS participant_id,
             p.chat_id,
             p.name AS chat_name,
             p.count,
             p.average_reply_time,
             p.chat_length,
-            
             pa.id AS persona_analysis_id,
             pa.analysis_summary,
             pa.speech_style,
             pa.teto_score,
-            
-            per.id AS persona_id,    
+            per.id AS persona_id,
             per.name AS persona_name,
             per.description,
             per.image
@@ -106,29 +102,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         JOIN persona_analysis pa ON p.id = pa.participant_id
         JOIN persona per ON pa.persona_id = per.id
         WHERE p.chat_id = #{chatId}
+        ORDER BY
+        <choose>
+            <when test="sort.sortBy == 'count'">p.count</when>
+            <when test="sort.sortBy == 'averageReplyTime'">p.average_reply_time</when>
+            <when test="sort.sortBy == 'chatLength'">p.chat_length</when>
+            <when test="sort.sortBy == 'tetoScore'">pa.teto_score</when>
+            <otherwise>p.id</otherwise>
+        </choose>
+        <if test="sort.sortOrder == 'DESC'">DESC</if>
+        <if test="sort.sortOrder != 'DESC'">ASC</if>
     </select>
 
-	<select id="findMeetingById"
-    		parameterType="int"
-    		resultMap="participantMeetingMap">
-		SELECT 
+    <select id="findMeetingById" resultMap="participantMeetingMap">
+        SELECT
             p.id AS participant_id,
             p.chat_id,
             p.name AS chat_name,
             p.count,
             p.average_reply_time,
             p.chat_length,
-            
             mp.id AS meeting_participation_id,
-			mp.meaningful_utterance_count,
-			mp.key_opinion,
-			mp.participation_score,
-			mp.topic_initiation_count,
-			mp.reaction_received_score,
-			mp.assigned_task
+            mp.meaningful_utterance_count,
+            mp.key_opinion,
+            mp.participation_score,
+            mp.topic_initiation_count,
+            mp.reaction_received_score,
+            mp.assigned_task
         FROM participant p
         JOIN meeting_participation mp ON p.id = mp.participant_id
         WHERE p.chat_id = #{chatId}
+        ORDER BY
+        <choose>
+            <when test="sort.sortBy == 'count'">p.count</when>
+            <when test="sort.sortBy == 'averageReplyTime'">p.average_reply_time</when>
+            <when test="sort.sortBy == 'chatLength'">p.chat_length</when>
+            <when test="sort.sortBy == 'utteranceCount'">mp.meaningful_utterance_count</when>
+            <when test="sort.sortBy == 'participationScore'">mp.participation_score</when>
+            <when test="sort.sortBy == 'reactionReceivedScore'">mp.reaction_received_score</when>
+            <otherwise>p.id</otherwise>
+        </choose>
+        <if test="sort.sortOrder == 'DESC'">DESC</if>
+        <if test="sort.sortOrder != 'DESC'">ASC</if>
     </select>
 
     <select id="findByChatId"

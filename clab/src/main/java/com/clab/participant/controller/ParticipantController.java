@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.clab.common.dto.SortRequestDto;
 import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
 import com.clab.participant.dto.ParticipantDto;
@@ -52,8 +53,9 @@ public class ParticipantController {
 	
 	@GetMapping("/persona/{chatId}")
 	@Operation(summary = "참여자+페르소나 분석 조회")
-	public ResponseEntity<ApiResponse> findPersonaById(@PathVariable("chatId") int chatId) {
-		List<ParticipantPersonaDto> result = participantService.findPersonaById(chatId);
+	public ResponseEntity<ApiResponse> findPersonaById(@PathVariable("chatId") int chatId,
+			SortRequestDto sortRequest) {
+		List<ParticipantPersonaDto> result = participantService.findPersonaById(chatId, sortRequest);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity
 				.status(response.getStatus())
@@ -62,8 +64,9 @@ public class ParticipantController {
 	
 	@GetMapping("/meeting/{chatId}")
 	@Operation(summary = "참여자+회의 분석 조회")
-	public ResponseEntity<ApiResponse> findMeetingById(@PathVariable("chatId") int chatId) {
-		List<ParticipantMeetingDto> result = participantService.findMeetingById(chatId);
+	public ResponseEntity<ApiResponse> findMeetingById(@PathVariable("chatId") int chatId,
+			SortRequestDto sortRequest) {
+		List<ParticipantMeetingDto> result = participantService.findMeetingById(chatId,sortRequest);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity
 				.status(response.getStatus())

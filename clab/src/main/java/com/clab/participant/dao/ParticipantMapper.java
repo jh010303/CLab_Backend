@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.clab.common.dto.SortRequestDto;
 import com.clab.participant.dto.ParticipantDto;
 import com.clab.participant.dto.ParticipantMeetingDto;
 import com.clab.participant.dto.ParticipantPersonaDto;
@@ -16,9 +17,11 @@ public interface ParticipantMapper {
 
 	ParticipantDto findById(int id);
 
-	List<ParticipantPersonaDto> findPersonaById(int chatId);
+	List<ParticipantPersonaDto> findPersonaById(@Param("chatId") int chatId, 
+			@Param("sort")SortRequestDto sortRequest);
 	
-	List<ParticipantMeetingDto> findMeetingById(int chatId);
+	List<ParticipantMeetingDto> findMeetingById(@Param("chatId")int chatId, 
+			@Param("sort") SortRequestDto sortRequest);
 	
 	List<ParticipantDto> findByChatId(int chatId);
 
@@ -29,5 +32,4 @@ public interface ParticipantMapper {
 	int delete(int id);
 
 	int deleteByChatId(int chatId);
-
 }
