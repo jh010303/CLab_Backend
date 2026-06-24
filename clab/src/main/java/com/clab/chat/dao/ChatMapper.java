@@ -23,5 +23,7 @@ public interface ChatMapper {
 
 	int update(@Param("id") int id, @Param("dto") ChatDto dto);
 
+	int updateStatus(@Param("id") int id, @Param("status") String status);
+
 	int delete(int id);
 }
