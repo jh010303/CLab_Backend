@@ -28,4 +28,5 @@ public class ChatDto {
 	private String title;
 	private String content;
 	private String category;
+	private String status;
 }
