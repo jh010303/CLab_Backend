@@ -81,7 +81,11 @@ public class AiUtil {
 
 			List<List<Integer>> result = new ArrayList<>();
 			for (int i = 0; i < contents.size(); i++) {
-				result.add(i < parsed.size() ? parsed.get(i) : Collections.emptyList());
+				List<Integer> raw = i < parsed.size() ? parsed.get(i) : Collections.emptyList();
+				List<Integer> validated = raw.stream()
+						.map(id -> VALID_CATEGORY_IDS.contains(id) ? id : null)
+						.collect(java.util.stream.Collectors.toList());
+				result.add(validated);
 			}
 			return result;
 		} catch (Exception e) {

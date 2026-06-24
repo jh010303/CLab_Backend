@@ -136,7 +136,9 @@ public class ChatServiceImpl implements ChatService {
 
 				for (Integer categoryId : categoryIds) {
 					contentCategoryService.insert(new ContentCategoryDto(null, contentId, categoryId));
-					categoryCountMap.merge(categoryId, 1, Integer::sum);
+					if (categoryId != null) {
+						categoryCountMap.merge(categoryId, 1, Integer::sum);
+					}
 				}
 			}
 
