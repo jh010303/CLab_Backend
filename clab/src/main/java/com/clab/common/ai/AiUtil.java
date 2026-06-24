@@ -83,8 +83,8 @@ public class AiUtil {
 			for (int i = 0; i < contents.size(); i++) {
 				List<Integer> raw = i < parsed.size() ? parsed.get(i) : Collections.emptyList();
 				List<Integer> validated = raw.stream()
-						.map(id -> VALID_CATEGORY_IDS.contains(id) ? id : null)
-						.collect(java.util.stream.Collectors.toList());
+						.filter(VALID_CATEGORY_IDS::contains)
+						.toList();
 				result.add(validated);
 			}
 			return result;
