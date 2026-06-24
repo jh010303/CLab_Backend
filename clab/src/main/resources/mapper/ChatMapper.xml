@@ -41,6 +41,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        content,
 	        category
 	    FROM chat
+	    <choose>
+	    	<when test="category == 'EMOTION'">WHERE category = "EMOTION"</when>
+	    	<when test="category == 'MEETING'">WHERE category = "MEETING"</when>
+	    </choose>
 	    WHERE user_id = #{userId}
 	    ORDER BY
 	    <choose>
