@@ -137,9 +137,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        <when test="sort.sortBy == 'count'">COALESCE(p.count, 0)</when>
 	        <when test="sort.sortBy == 'averageReplyTime'">COALESCE(p.average_reply_time, 0)</when>
 	        <when test="sort.sortBy == 'chatLength'">COALESCE(p.chat_length, 0)</when>
-	        <when test="sort.sortBy == 'utteranceCount'">COALESCE(mp.meaningful_utterance_count, 0)</when>
+	        <when test="sort.sortBy == 'meaningfulUtteranceCount'">COALESCE(mp.meaningful_utterance_count, 0)</when>
 	        <when test="sort.sortBy == 'participationScore'">COALESCE(mp.participation_score, 0)</when>
 	        <when test="sort.sortBy == 'reactionReceivedScore'">COALESCE(mp.reaction_received_score, 0)</when>
+	        <when test="sort.sortBy == 'topicInitiationCount'">COALESCE(mp.topic_initiation_count, 0)</when>
+	        
 	        <otherwise>p.id</otherwise>
 	    </choose>
 	    <if test="sort.sortOrder == 'DESC'">DESC</if>
