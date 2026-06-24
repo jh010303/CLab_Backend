@@ -65,6 +65,7 @@ public class ChatServiceImpl implements ChatService {
 	    params.put("offset", pageRequest.getOffset());
 	    params.put("sortBy", pageRequest.getSortBy());
 	    params.put("sortOrder", pageRequest.getSortOrder());
+	    params.put("category", pageRequest.getCategory());
 
 	    List<ChatDto> chatList = chatMapper.findAllByUserId(params);
 	    int totalCount = chatMapper.countByUserId(userId);
