@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT
             p.id AS participant_id,
             p.chat_id,
-            p.name AS chat_name,
+            p.name,
             p.count,
             p.average_reply_time,
             p.chat_length,
@@ -104,47 +104,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE p.chat_id = #{chatId}
         ORDER BY
         <choose>
-            <when test="sort.sortBy == 'count'">p.count</when>
-            <when test="sort.sortBy == 'averageReplyTime'">p.average_reply_time</when>
-            <when test="sort.sortBy == 'chatLength'">p.chat_length</when>
-            <when test="sort.sortBy == 'tetoScore'">pa.teto_score</when>
+            <when test="sort.sortBy == 'count'">COALESCE(p.count,0)</when>
+            <when test="sort.sortBy == 'averageReplyTime'">COALESCE(p.average_reply_time,0)</when>
+            <when test="sort.sortBy == 'chatLength'">COALESCE(p.chat_length,0)</when>
+            <when test="sort.sortBy == 'tetoScore'">COALESCE(pa.teto_score,0)</when>
             <otherwise>p.id</otherwise>
         </choose>
         <if test="sort.sortOrder == 'DESC'">DESC</if>
         <if test="sort.sortOrder != 'DESC'">ASC</if>
     </select>
 
-    <select id="findMeetingById" resultMap="participantMeetingMap">
-        SELECT
-            p.id AS participant_id,
-            p.chat_id,
-            p.name AS chat_name,
-            p.count,
-            p.average_reply_time,
-            p.chat_length,
-            mp.id AS meeting_participation_id,
-            mp.meaningful_utterance_count,
-            mp.key_opinion,
-            mp.participation_score,
-            mp.topic_initiation_count,
-            mp.reaction_received_score,
-            mp.assigned_task
-        FROM participant p
-        JOIN meeting_participation mp ON p.id = mp.participant_id
-        WHERE p.chat_id = #{chatId}
-        ORDER BY
-        <choose>
-            <when test="sort.sortBy == 'count'">p.count</when>
-            <when test="sort.sortBy == 'averageReplyTime'">p.average_reply_time</when>
-            <when test="sort.sortBy == 'chatLength'">p.chat_length</when>
-            <when test="sort.sortBy == 'utteranceCount'">mp.meaningful_utterance_count</when>
-            <when test="sort.sortBy == 'participationScore'">mp.participation_score</when>
-            <when test="sort.sortBy == 'reactionReceivedScore'">mp.reaction_received_score</when>
-            <otherwise>p.id</otherwise>
-        </choose>
-        <if test="sort.sortOrder == 'DESC'">DESC</if>
-        <if test="sort.sortOrder != 'DESC'">ASC</if>
-    </select>
+	<select id="findMeetingById" resultMap="participantMeetingMap">
+	    SELECT
+	        p.id AS participant_id,
+	        p.chat_id,
+	        p.name,
+	        p.count,
+	        p.average_reply_time,
+	        p.chat_length,
+	        mp.id AS meeting_participation_id,
+	        mp.meaningful_utterance_count,
+	        mp.key_opinion,
+	        mp.participation_score,
+	        mp.topic_initiation_count,
+	        mp.reaction_received_score,
+	        mp.assigned_task
+	    FROM participant p
+	    JOIN meeting_participation mp ON p.id = mp.participant_id
+	    WHERE p.chat_id = #{chatId}
+	    ORDER BY
+	    <choose>
+	        <when test="sort.sortBy == 'count'">COALESCE(p.count, 0)</when>
+	        <when test="sort.sortBy == 'averageReplyTime'">COALESCE(p.average_reply_time, 0)</when>
+	        <when test="sort.sortBy == 'chatLength'">COALESCE(p.chat_length, 0)</when>
+	        <when test="sort.sortBy == 'meaningfulUtteranceCount'">COALESCE(mp.meaningful_utterance_count, 0)</when>
+	        <when test="sort.sortBy == 'participationScore'">COALESCE(mp.participation_score, 0)</when>
+	        <when test="sort.sortBy == 'reactionReceivedScore'">COALESCE(mp.reaction_received_score, 0)</when>
+	        <when test="sort.sortBy == 'topicInitiationCount'">COALESCE(mp.topic_initiation_count, 0)</when>
+	        
+	        <otherwise>p.id</otherwise>
+	    </choose>
+	    <if test="sort.sortOrder == 'DESC'">DESC</if>
+	    <if test="sort.sortOrder != 'DESC'">ASC</if>
+	</select>
+
 
     <select id="findByChatId"
     		parameterType="int"
