@@ -44,14 +44,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    WHERE user_id = #{userId}
 	    ORDER BY
 	    <choose>
-	        <when test="sortBy == 'title'">title</when>
-	        <when test="sortBy == 'createdAt'">created_at</when>
-	        <otherwise>created_at</otherwise>
+	        <when test="sortBy == 'title'">COALESCE(title, '')</when>
+	        <when test="sortBy == 'createdAt'">COALESCE(created_at, '1970-01-01 00:00:00')</when>
+	        <otherwise>COALESCE(created_at, '1970-01-01 00:00:00')</otherwise>
 	    </choose>
 	    <if test="sortOrder == 'ASC'">ASC</if>
 	    <if test="sortOrder != 'ASC'">DESC</if>
 	    LIMIT #{limit} OFFSET #{offset}
 	</select>
+
 	
 	<select id="countByUserId" parameterType="int" resultType="int">
 	    SELECT COUNT(id)
