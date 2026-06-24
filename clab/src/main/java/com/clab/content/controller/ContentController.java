@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.clab.common.exception.ApiResponse;
 import com.clab.common.exception.SuccessCode;
+import com.clab.content.dto.ContentCategoryJoinDto;
 import com.clab.content.dto.ContentDto;
 import com.clab.content.service.ContentService;
 
@@ -23,49 +24,51 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/content")
-@Tag(name="ContentController", description = "대화 내용 관리 API")
+@Tag(name = "ContentController", description = "대화 내용 관리 API")
 public class ContentController {
-	
+
 	private final ContentService contentService;
-	
+
 	@GetMapping
-	public ResponseEntity<ApiResponse> findAll(){
+	public ResponseEntity<ApiResponse> findAll() {
 		List<ContentDto> result = contentService.findAll();
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
+
 	@GetMapping("/{id}")
-	public ResponseEntity<ApiResponse> findById(@PathVariable("id") int id){
+	public ResponseEntity<ApiResponse> findById(@PathVariable("id") int id) {
 		ContentDto result = contentService.findById(id);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
+
 	@GetMapping("/participant/{participantId}")
-	public ResponseEntity<ApiResponse> findByParticipantId(@PathVariable("participantId") int participantId){
-		List<ContentDto> result = contentService.findByParticipantId(participantId);
+	public ResponseEntity<ApiResponse> findByParticipantId(@PathVariable("participantId") int participantId) {
+		List<ContentCategoryJoinDto> result = contentService.findByParticipantId(participantId);
 		ApiResponse response = new ApiResponse(SuccessCode.SELECT_SUCCESS, result);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
+	
 	@PostMapping
-	public ResponseEntity<ApiResponse> insert(@RequestBody ContentDto dto){
+	public ResponseEntity<ApiResponse> insert(@RequestBody ContentDto dto) {
 		int id = contentService.insert(dto);
 		ApiResponse response = new ApiResponse(SuccessCode.INSERT_SUCCESS, Map.of("id", id));
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ApiResponse> delete(@PathVariable("id") int id){
+	public ResponseEntity<ApiResponse> delete(@PathVariable("id") int id) {
 		contentService.delete(id);
 		ApiResponse response = new ApiResponse(SuccessCode.DELETE_SUCCESS, null);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
+
 	@DeleteMapping("/participant/{participantId}")
-	public ResponseEntity<ApiResponse> deleteByParticipantId(@PathVariable("participantId") int participantId){
+	public ResponseEntity<ApiResponse> deleteByParticipantId(@PathVariable("participantId") int participantId) {
 		contentService.deleteByParticipantId(participantId);
 		ApiResponse response = new ApiResponse(SuccessCode.DELETE_SUCCESS, null);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
-	
-	
-	
-	
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.clab.content.dto.ContentCategoryJoinDto;
 import com.clab.content.dto.ContentDto;
 
 @Mapper
@@ -13,7 +14,7 @@ public interface ContentMapper {
 
 	ContentDto findById(int id);
 
-	List<ContentDto> findByParticipantId(int participantId);
+	List<ContentCategoryJoinDto> findByParticipantId(int participantId);
 
 	int insert(ContentDto dto);
 
