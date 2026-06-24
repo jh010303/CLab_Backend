@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.clab.common.exception.CustomException;
 import com.clab.common.exception.ErrorCode;
 import com.clab.content.dao.ContentMapper;
+import com.clab.content.dto.ContentCategoryJoinDto;
 import com.clab.content.dto.ContentDto;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class ContentServiceImpl implements ContentService {
 	}
 
 	@Override
-	public List<ContentDto> findByParticipantId(int participantId) {
+	public List<ContentCategoryJoinDto> findByParticipantId(int participantId) {
 		return mapper.findByParticipantId(participantId);
 	}
 

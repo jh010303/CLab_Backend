@@ -13,6 +13,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="time" column="time" />
 	</resultMap>
 
+	<resultMap id="contentCategoryJoinMap"
+		type="com.clab.content.dto.ContentCategoryJoinDto">
+		<id property="id" column="id" />
+		<result property="participantId" column="participant_id" />
+		<result property="content" column="content" />
+		<result property="time" column="time" />
+		<result property="categoryId" column="category_id" />
+		<result property="categoryName" column="category_name" />
+	</resultMap>
+
+
 	<!-- 전체 조회 -->
 	<select id="findAll" resultMap="contentMap">
 		SELECT
@@ -35,13 +46,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="findByParticipantId" parameterType="int"
-		resultMap="contentMap">
+		resultMap="contentCategoryJoinMap">
 		SELECT
-		id,
+		c.id,
 		participant_id,
 		content,
-		time
-		FROM content
+		time,
+		cg.id as category_id,
+		cg.name as category_name
+		FROM content c
+		JOIN content_category cc on c.id = cc.content_id
+		JOIN category cg on cc.category_id = cg.id
 		WHERE
 		participant_id = #{participantId}
 	</select>

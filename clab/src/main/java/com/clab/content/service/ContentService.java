@@ -2,6 +2,7 @@ package com.clab.content.service;
 
 import java.util.List;
 
+import com.clab.content.dto.ContentCategoryJoinDto;
 import com.clab.content.dto.ContentDto;
 
 public interface ContentService {
@@ -10,7 +11,7 @@ public interface ContentService {
 
 	ContentDto findById(int id);
 
-	List<ContentDto> findByParticipantId(int participantId);
+	List<ContentCategoryJoinDto> findByParticipantId(int participantId);
 
 	int insert(ContentDto dto);
 
