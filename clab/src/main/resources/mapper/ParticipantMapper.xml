@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT
             p.id AS participant_id,
             p.chat_id,
-            p.name AS chat_name,
+            p.name,
             p.count,
             p.average_reply_time,
             p.chat_length,
@@ -118,7 +118,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    SELECT
 	        p.id AS participant_id,
 	        p.chat_id,
-	        p.name AS chat_name,
+	        p.name,
 	        p.count,
 	        p.average_reply_time,
 	        p.chat_length,
