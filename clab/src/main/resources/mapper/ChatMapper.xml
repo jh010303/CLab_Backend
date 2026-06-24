@@ -63,11 +63,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	
-	<select id="countByUserId" parameterType="int" resultType="int">
+	<select id="countByUserIdAndCategoryId" resultType="int">
 	    SELECT COUNT(id)
 	    FROM chat
 	    WHERE user_id = #{userId}
+	    <if test="category != null and category != 'ALL'">
+	        AND category = #{category}
+	    </if>
 	</select>
+
+
 
     <!-- 단건 조회 -->
     <select id="findById"

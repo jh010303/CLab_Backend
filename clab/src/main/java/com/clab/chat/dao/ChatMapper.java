@@ -15,7 +15,7 @@ public interface ChatMapper {
 	
 	List<ChatDto> findAllByUserId(Map<String, Object> params);
 
-	int countByUserId(int userId);
+	int countByUserIdAndCategoryId(@Param("userId") int userId, @Param("category") String category);
 
 	ChatDto findById(int id);
 
