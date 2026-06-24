@@ -68,7 +68,7 @@ public class ChatServiceImpl implements ChatService {
 	    params.put("category", pageRequest.getCategory());
 
 	    List<ChatDto> chatList = chatMapper.findAllByUserId(params);
-	    int totalCount = chatMapper.countByUserId(userId);
+	    int totalCount = chatMapper.countByUserIdAndCategoryId(userId, pageRequest.getCategory());
 
 	    Map<String, Object> result = new HashMap<>();
 	    result.put("chats", chatList);
