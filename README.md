@@ -65,13 +65,11 @@ CLab은 AI 기반 말투·성향 분석 서비스를 통해 사용자의 대화 
 
 ---
 ## 💡 3. 기능 예시 화면
-| <img width="161" height="308" alt="image" src="https://github.com/user-attachments/assets/66c399b7-523a-4f28-92c4-7b465fc20f07" /> | <img width="160" height="309" alt="image" src="https://github.com/user-attachments/assets/6879a3ee-6850-4cf5-89a5-b75d5af3db0d" /> | <img width="161" height="305" alt="image" src="https://github.com/user-attachments/assets/3f1c9c71-7d58-4bff-a9c0-5fbc68151de4" /> | <img width="160" height="303" alt="image" src="https://github.com/user-attachments/assets/4c15746c-d3e3-493f-87cb-cba4ffbfe1b3" /> | <img width="158" height="304" alt="image" src="https://github.com/user-attachments/assets/a239a025-e9b0-4add-87e5-232396d5e331" /> | 
-|:---:|:---:|:---:|:---:|:---:|
-| 시작 화면 | 로그인 화면 | 메인 화면 | 체온 그래프 | 케어 알림 |
+**메인 화면**
+<img width="2544" height="1205" alt="image" src="https://github.com/user-attachments/assets/7d88c5b0-1acf-4d20-b466-c843dbda1676" />
 
-| <img width="164" height="312" alt="image" src="https://github.com/user-attachments/assets/102de42d-3b36-42e4-ad50-1d20e2dbc809" /> | <img width="158" height="302" alt="image" src="https://github.com/user-attachments/assets/701dc948-ea32-4d5a-82ea-bab667d2e367" /> | <img width="156" height="305" alt="image" src="https://github.com/user-attachments/assets/ff7ee766-9c14-4015-8b28-ad5e56d55605" /> | <img width="158" height="304" alt="image" src="https://github.com/user-attachments/assets/6eb157ad-0193-451b-a6b1-7435c7b1f864" /> | <img width="157" height="304" alt="image" src="https://github.com/user-attachments/assets/d923d2ad-aabc-4fb7-b904-a5b95b9806ed" /> |
-|:---:|:---:|:---:|:---:|:---:|
-| 홈캠 화면 | 리포트 생성 | 리포트 결과 | 내 위치 주변 병원 | 캘린더 |
+**채팅 업로드**
+<img width="2852" height="1186" alt="image" src="https://github.com/user-attachments/assets/da3f5dfd-f84a-4903-ab4d-d7d7f78ba8f1" />
 
 ---
 
