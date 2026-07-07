@@ -54,20 +54,12 @@ CLab은 AI 기반 말투·성향 분석 서비스를 통해 사용자의 대화 
 ## 💡 2. 시스템 구성도
 
 ### **S/W 구성도**
-<img width="70%" alt="image" src="https://github.com/user-attachments/assets/095b62d5-e18b-43cb-aff7-708ccee677d0" />
-<br/><br/>
-
-### **H/W 구성도**
-<img width="555" height="432" alt="image" src="https://github.com/user-attachments/assets/6cc5e3f5-6dc4-406c-9e9f-ba5b52fd89f6" />
-
+<img width="2391" height="1166" alt="image" src="https://github.com/user-attachments/assets/c1e8069f-5a14-4e91-a213-93d722659dfc" />
 <br/><br/>
 
 ### **엔티티 관계**
-<img width="3380" height="1312" alt="image" src="https://github.com/user-attachments/assets/065e120d-150a-4974-b200-5a9721e058b3" />
-<br/><br/>
+<img width="2842" height="1216" alt="image" src="https://github.com/user-attachments/assets/a3e26ef8-20c3-4c6b-93e3-60e3e571eb11" />
 
-### **백엔드 아키텍처**
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d628c43e-4944-40c4-8010-4a5b280c2b9c" />
 <br/><br/>
 
 <br/>
