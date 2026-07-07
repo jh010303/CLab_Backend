@@ -65,7 +65,7 @@ CLab은 AI 기반 말투·성향 분석 서비스를 통해 사용자의 대화 
 <br/>
 
 ---
-## 💡 4. 기능 예시 화면
+## 💡 3. 기능 예시 화면
 | <img width="161" height="308" alt="image" src="https://github.com/user-attachments/assets/66c399b7-523a-4f28-92c4-7b465fc20f07" /> | <img width="160" height="309" alt="image" src="https://github.com/user-attachments/assets/6879a3ee-6850-4cf5-89a5-b75d5af3db0d" /> | <img width="161" height="305" alt="image" src="https://github.com/user-attachments/assets/3f1c9c71-7d58-4bff-a9c0-5fbc68151de4" /> | <img width="160" height="303" alt="image" src="https://github.com/user-attachments/assets/4c15746c-d3e3-493f-87cb-cba4ffbfe1b3" /> | <img width="158" height="304" alt="image" src="https://github.com/user-attachments/assets/a239a025-e9b0-4add-87e5-232396d5e331" /> | 
 |:---:|:---:|:---:|:---:|:---:|
 | 시작 화면 | 로그인 화면 | 메인 화면 | 체온 그래프 | 케어 알림 |
@@ -75,9 +75,4 @@ CLab은 AI 기반 말투·성향 분석 서비스를 통해 사용자의 대화 
 | 홈캠 화면 | 리포트 생성 | 리포트 결과 | 내 위치 주변 병원 | 캘린더 |
 
 ---
-## 💡 5. 시연 영상
-> 아래 이미지를 클릭하시면 시연 영상을 확인하실 수 있습니다.
 
-[![시연 영상 바로가기](https://github.com/user-attachments/assets/d427c18c-c69c-49b4-b5b6-57b79818202e)](https://youtu.be/RlyZUbuNoy4)
-
-<br/><br/>
