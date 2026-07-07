@@ -1,27 +1,91 @@
-## CLab
-BackEnd repository
+<div align="center">
+
+  <h1>CLaB</h1>
+  <p>다양한 플랫폼의 채팅 파일을 업로드하면 AI가 대화 내용을 분석해주는 채팅 분석 서비스</p>
+</div>
+
+<br/>
+
+<div align="center">
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c5650f51-a379-4352-a3a9-6902cc871985" />
+
+</div>
+
+<br/>
+
+---
+## 💡 1. 프로젝트 개요
+
+**1-1. 프로젝트 소개**
+
+- 프로젝트 명: **CLab**
+- 프로젝트 정의: 다양한 플랫폼의 채팅 파일을 업로드하면 AI가 대화 내용을 분석해주는 채팅 분석 서비스
+<br><br>
 
 
-## 서비스 소개
-다양한 플랫폼의 채팅 파일을 업로드하면 AI가 대화 내용을 분석해주는 채팅 분석 서비스
+**1-2. 개발 배경 및 필요성**
+최근 MBTI처럼 개인과 타인의 성향을 분석하고 유형화하는 문화가 확산되고 있습니다. 하지만 자신의 말투나 감정 표현 방식, 대화 습관은 스스로 객관적으로 인식하기 어렵다는 한계가 있습니다. 이러한 문제를 해결하기 위해, **채팅 기록 기반의 대화 습관 분석 데이터를 AI가 제공하는 채팅 분석 서비스**가 필요합니다.
+
+<br><br>
+
+**1-3. 프로젝트 특장점**
+CLab은 AI 기반 말투·성향 분석 서비스를 통해 사용자의 대화 특징을 시각화하고, 자신의 대화 패턴을 보다 객관적으로 파악할 수 있도록 지원합니다. 사용자는 회의 분석과 페르소나 분석, 두 가지 유형의 AI 분석 기능을 활용할 수 있습니다. 회의 분석은 회의 참여자별 기여도를 파악하고, 각 참여자의 핵심 의견을 요약하여 제공합니다. 페르소나 분석은 사용자의 대화 기록을 기반으로 말투와 성향을 유추하고, 주요 특징을 그래프로 시각화해 쉽게 확인할 수 있도록 합니다. 또한 분석 결과는 사용자 정보에 저장되어, 추후 필요할 때 언제든 다시 확인할 수 있습니다.
+<br><br>
+
+**1-4. 주요 기능**
+
+- **채팅 파일 업로드 및 분석 방식 선택**: 카카오톡 txt 파일을 사용자가 업로드
+- **페르소나 분석**: 대화 참여자들의 페르소나 분석 및 비교 확인 가능
+- **회의 참여도 및 기여도 분석**: 회의 대화 내용을 분석하여 회의 요약과 핵심 키워드 도출
+- **분석 결과 저장**: 분석한 결과를 저장, 추후에 조회
+<br><br>
 
 
-### 주요 기능
-- 채팅 파일 업로드 및 분석 방식 선택
-- 논쟁 / 말싸움 분석
-- 갈등 맥락 분석 및 화해 문구 추천
-- 회의 참여도 및 기여도 분석
-- 분석 결과 저장
-- 분석 결과 공유
+**1-5. 기술 스택**
 
-## Commit Message Convention
+- **프론트엔드**: Vue.js
+- **백엔드**: Java 21, Spring Boot, Spring Security
+- **데이터베이스**: MySQL
+- **클라우드**: AWS EC2, S3, RDS
+- **배포 및 관리**: Docker, GitHub Actions
+<br><br>
+---
 
-| Tag Name       | Description                                    |
-|----------------|------------------------------------------------|
-| :sparkles: Feat    | 새로운 기능을 추가                              |
-| :bug: Fix          | 버그 수정                                      |
-| :art: Style        | 코드 포맷 변경, 세미 콜론 누락, 코드 수정이 없는 경우 |
-| :hammer:  Refactor | 프로덕션 코드 리팩토링                         |
-| :memo: Docs        | 문서 수정                                      |
-| :test_tube: Test   | 테스트 코드, 리팩토링 테스트 코드 추가, Production Code(실제로 사용하는 코드) 변경 없음 |
-| :rocket: Chore     | 빌드 업무 수정, 패키지 매니저 수정, 패키지 관리자 구성 등 업데이트, Production Code 변경 없음 |
+## 💡 2. 시스템 구성도
+
+### **S/W 구성도**
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/095b62d5-e18b-43cb-aff7-708ccee677d0" />
+<br/><br/>
+
+### **H/W 구성도**
+<img width="555" height="432" alt="image" src="https://github.com/user-attachments/assets/6cc5e3f5-6dc4-406c-9e9f-ba5b52fd89f6" />
+
+<br/><br/>
+
+### **엔티티 관계**
+<img width="3380" height="1312" alt="image" src="https://github.com/user-attachments/assets/065e120d-150a-4974-b200-5a9721e058b3" />
+<br/><br/>
+
+### **백엔드 아키텍처**
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d628c43e-4944-40c4-8010-4a5b280c2b9c" />
+<br/><br/>
+
+<br/>
+
+---
+## 💡 4. 기능 예시 화면
+| <img width="161" height="308" alt="image" src="https://github.com/user-attachments/assets/66c399b7-523a-4f28-92c4-7b465fc20f07" /> | <img width="160" height="309" alt="image" src="https://github.com/user-attachments/assets/6879a3ee-6850-4cf5-89a5-b75d5af3db0d" /> | <img width="161" height="305" alt="image" src="https://github.com/user-attachments/assets/3f1c9c71-7d58-4bff-a9c0-5fbc68151de4" /> | <img width="160" height="303" alt="image" src="https://github.com/user-attachments/assets/4c15746c-d3e3-493f-87cb-cba4ffbfe1b3" /> | <img width="158" height="304" alt="image" src="https://github.com/user-attachments/assets/a239a025-e9b0-4add-87e5-232396d5e331" /> | 
+|:---:|:---:|:---:|:---:|:---:|
+| 시작 화면 | 로그인 화면 | 메인 화면 | 체온 그래프 | 케어 알림 |
+
+| <img width="164" height="312" alt="image" src="https://github.com/user-attachments/assets/102de42d-3b36-42e4-ad50-1d20e2dbc809" /> | <img width="158" height="302" alt="image" src="https://github.com/user-attachments/assets/701dc948-ea32-4d5a-82ea-bab667d2e367" /> | <img width="156" height="305" alt="image" src="https://github.com/user-attachments/assets/ff7ee766-9c14-4015-8b28-ad5e56d55605" /> | <img width="158" height="304" alt="image" src="https://github.com/user-attachments/assets/6eb157ad-0193-451b-a6b1-7435c7b1f864" /> | <img width="157" height="304" alt="image" src="https://github.com/user-attachments/assets/d923d2ad-aabc-4fb7-b904-a5b95b9806ed" /> |
+|:---:|:---:|:---:|:---:|:---:|
+| 홈캠 화면 | 리포트 생성 | 리포트 결과 | 내 위치 주변 병원 | 캘린더 |
+
+---
+## 💡 5. 시연 영상
+> 아래 이미지를 클릭하시면 시연 영상을 확인하실 수 있습니다.
+
+[![시연 영상 바로가기](https://github.com/user-attachments/assets/d427c18c-c69c-49b4-b5b6-57b79818202e)](https://youtu.be/RlyZUbuNoy4)
+
+<br/><br/>
