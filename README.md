@@ -49,8 +49,42 @@ CLab은 AI 기반 말투·성향 분석 서비스를 통해 사용자의 대화 
 - **배포 및 관리**: Docker, GitHub Actions
 <br><br>
 ---
+<h2>💡 2. 팀원 소개</h2>
 
-## 💡 2. 시스템 구성도
+<table align="center" style="width: 100%; table-layout: fixed;">
+  <tr>
+    <td align="center" width="50%">
+      <img width="210" height="210" alt="서민종" src="https://github.com/user-attachments/assets/ef710bd6-933d-4648-80e7-c6e3e54b5843" />
+    </td>
+    <td align="center" width="50%">
+      <img width="210" height="210" alt="김준형" src="https://github.com/user-attachments/assets/ba9f7c33-be41-4fdf-8f4c-bcf573e4465b" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><b>서민종</b></td>
+    <td align="center"><b>김준형</b></td>
+  </tr>
+  <tr>
+    <td align="center">
+      팀장 <br>
+      기본 CRUD 구현 <br>
+      Vue.js 화면 렌더링 <br>
+      Query 성능 최적화 <br>
+      DB 스키마 설계 <br>
+      프론트엔드 배포
+    </td>
+    <td align="center">
+      Spring Security 구현 <br>
+      채팅 파싱 알고리즘 설계 <br>
+      채팅 분석 비동기 처리 <br>
+      동적 쿼리 + 페이지네이션 구현 <br>
+      백엔드 배포 + CI/CD 구축
+    </td>
+  </tr>
+</table>
+
+
+## 💡 3. 시스템 구성도
 
 ### **S/W 구성도**
 <img width="2391" height="1166" alt="image" src="https://github.com/user-attachments/assets/c1e8069f-5a14-4e91-a213-93d722659dfc" />
@@ -64,7 +98,7 @@ CLab은 AI 기반 말투·성향 분석 서비스를 통해 사용자의 대화 
 <br/>
 
 ---
-## 💡 3. 기능 예시 화면
+## 💡 4. 기능 예시 화면
 **메인 화면**
 <img width="2544" height="1205" alt="image" src="https://github.com/user-attachments/assets/7d88c5b0-1acf-4d20-b466-c843dbda1676" />
 
