@@ -116,5 +116,10 @@ CLab은 AI 기반 말투·성향 분석 서비스를 통해 사용자의 대화 
 
 <img width="2842" height="1135" alt="image" src="https://github.com/user-attachments/assets/ce2e9ed0-d388-4a0d-ad5d-f3ae4282f765" />
 
+### **회의 대화 분석**
+<img width="1754" height="1182" alt="image" src="https://github.com/user-attachments/assets/dcfb983c-27a3-44b7-863d-0956c01d0721" />
+
+<img width="2638" height="1103" alt="image" src="https://github.com/user-attachments/assets/7b5d8114-a799-468c-8596-c3ee99435ba7" />
+
 ---
 
