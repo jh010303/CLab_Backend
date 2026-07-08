@@ -99,11 +99,22 @@ CLab은 AI 기반 말투·성향 분석 서비스를 통해 사용자의 대화 
 
 ---
 ## 💡 4. 기능 예시 화면
-**메인 화면**
+
+### **메인 화면**
 <img width="2544" height="1205" alt="image" src="https://github.com/user-attachments/assets/7d88c5b0-1acf-4d20-b466-c843dbda1676" />
 
-**채팅 업로드**
+### **채팅 업로드**
 <img width="2852" height="1186" alt="image" src="https://github.com/user-attachments/assets/da3f5dfd-f84a-4903-ab4d-d7d7f78ba8f1" />
+
+### **페르소나 대화 분석**
+<img width="1341" height="1059" alt="image" src="https://github.com/user-attachments/assets/05b4d7bc-96d0-4a8d-bfcc-d35d4fe54d29" />
+
+### **페르소나 대화 참여자 상세 분석**
+<img width="2831" height="1177" alt="image" src="https://github.com/user-attachments/assets/eff7d91e-d2ca-4483-95d8-d7a5adf1bfdf" />
+
+<img width="2851" height="825" alt="image" src="https://github.com/user-attachments/assets/bb22ca24-4f14-46b2-8b51-ab1f41c78499" />
+
+<img width="2842" height="1135" alt="image" src="https://github.com/user-attachments/assets/ce2e9ed0-d388-4a0d-ad5d-f3ae4282f765" />
 
 ---
 
